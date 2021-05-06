@@ -74,6 +74,7 @@ cv::cvtColor(image, aux, cv::COLOR_RGB2GRAY);
 <br>
 
 ## How to run in Gazebo
+#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), and [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam)
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
 + When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file](https://github.com/engcang/SLAM-application/blob/main/lidar_repair.py)
