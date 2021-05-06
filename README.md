@@ -29,7 +29,18 @@ $ catkin build
 
 <br>
 
+### LVI-SAM
++ trouble shooting
+  + for `OpenCV 4.X`, edit `LVI-SAM/src/visual_odometry/visual_loop/ThirdParty/DVision/BRIEF.cpp:53`
+  ~~~cpp
+  // cv::cvtColor(image, aux, CV_RGB2GRAY);
+  cv::cvtColor(image, aux, cv::COLOR_RGB2GRAY);
+  ~~~
++ 
+
+<br>
+
 ## How to run
 ### LIO-SAM in Gazebo
-#### with `[Gazebo Velodyne plugin](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)`
+#### with [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
 + height - width should be interchanged, I used [this script file]()
