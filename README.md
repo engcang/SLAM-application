@@ -76,4 +76,4 @@ cv::cvtColor(image, aux, cv::COLOR_RGB2GRAY);
 ## How to run in Gazebo
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
-+ When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file]()
++ When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file](https://github.com/engcang/SLAM-application/blob/main/lidar_repair.py)
