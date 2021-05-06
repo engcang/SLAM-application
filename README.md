@@ -7,12 +7,12 @@
 
 ## Requirements
 + Dependencies
-~~~
+~~~shell
 $ sudo apt-get install -y ros-melodic-navigation ros-melodic-robot-localization ros-melodic-robot-state-publisher
 ~~~
 
 + [GTSAM](https://github.com/borglab/gtsam/releases)
-~~~
+~~~shell
 $ wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.2.zip
 $ unzip gtsam.zip
 $ cd gtsam-4.0.2/
@@ -22,7 +22,7 @@ $ sudo make install -j8
 ~~~
 
 + [Ceres solver](http://ceres-solver.org) only for `LVI-SAM`
-~~~
+~~~shell
 $ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
 $ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz
 $ tar zxf ceres-solver-1.14.0.tar.gz
@@ -38,7 +38,7 @@ $ make install
 
 ## Installation
 ### ● LeGO-LOAM
-~~~
+~~~shell
 $ cd ~/your_workspace/src
 $ git clone https://github.com/RobustFieldAutonomyLab/LeGO-LOAM.git
 $ cd ..
@@ -48,7 +48,7 @@ $ catkin build
 <br>
 
 ### ● LIO-SAM
-~~~
+~~~shell
 $ cd ~/your_workspace/src
 $ git clone https://github.com/TixiaoShan/LIO-SAM.git
 $ cd ..
@@ -58,7 +58,7 @@ $ catkin build
 <br>
 
 ### ● LVI-SAM
-~~~
+~~~shell
 $ cd ~/your_workspace/src
 $ git clone https://github.com/TixiaoShan/LVI-SAM.git
 $ cd ..
