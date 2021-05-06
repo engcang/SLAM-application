@@ -1,4 +1,4 @@
-# SLAM-application: installation and application
+# SLAM-application: installation and test
 + (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), and [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM)
   + Tested on `Quadruped robot` in `Gazebo`
 #### ● Results: [`video`]()
