@@ -9,17 +9,29 @@ image_topic: "/stereo_ir/left/image_raw"
 point_cloud_topic: "lvi_sam/lidar/deskew/cloud_deskewed"
 
 # Lidar Params
-use_lidar: 0                     # whether use depth info from lidar or not
+use_lidar: 1                     # whether use depth info from lidar or not
 lidar_skip: 3                    # skip this amount of scans
 align_camera_lidar_estimation: 1 # align camera and lidar estimation for visualization
 
 # lidar to camera extrinsic
-lidar_to_cam_tx: 0.15
+#lidar_to_cam_tx: 0.15
+#lidar_to_cam_ty: -0.00
+#lidar_to_cam_tz: -0.05
+#lidar_to_cam_rx: 0.0
+#lidar_to_cam_ry: -1.5707963
+#lidar_to_cam_rz: 1.5707963
+lidar_to_cam_tx: -0.15
 lidar_to_cam_ty: -0.00
-lidar_to_cam_tz: -0.05
-lidar_to_cam_rx: 0.0
+lidar_to_cam_tz: 0.05
+lidar_to_cam_rx: -1.5707963
 lidar_to_cam_ry: 0.0
-lidar_to_cam_rz: -0.00
+lidar_to_cam_rz: -1.5707963
+#lidar_to_cam_tx: -0.15
+#lidar_to_cam_ty: -0.00
+#lidar_to_cam_tz: 0.05
+#lidar_to_cam_rx: 0.0
+#lidar_to_cam_ry: 0.0
+#lidar_to_cam_rz: 0.0
 
 # camera model
 model_type: PINHOLE
