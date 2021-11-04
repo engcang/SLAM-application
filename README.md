@@ -1,7 +1,13 @@
 # SLAM-application: installation and test
 + (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), and [FAST-LIO2](https://github.com/hku-mars/FAST_LIO)
   + Tested on `Quadruped robot` in `Gazebo`
-## ● Results: [`video`](https://youtu.be/RCY_q_d2Xm0), [`video2`](https://youtu.be/WvgGqeyHNzs), [`video3`]()
+
+<br>
+
+## ● Results: 
+### ● [`video`](https://youtu.be/RCY_q_d2Xm0): Lego-LOAM vs LIO-SAM vs LVI-SAM
+### ● [`video2`](https://youtu.be/WvgGqeyHNzs): LIO-SAM vs LVI-SAM
+### ● [`video3`](https://youtu.be/3d4WtK6S4Ms): LIO-SAM vs FAST-LIO2
 
 <br>
 
