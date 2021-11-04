@@ -1,7 +1,7 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), and [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM)
++ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), and [FAST-LIO2](https://github.com/hku-mars/FAST_LIO)
   + Tested on `Quadruped robot` in `Gazebo`
-## ● Results: [`video`](https://youtu.be/RCY_q_d2Xm0), [`video2`](https://youtu.be/WvgGqeyHNzs)
+## ● Results: [`video`](https://youtu.be/RCY_q_d2Xm0), [`video2`](https://youtu.be/WvgGqeyHNzs), [`video3`]()
 
 <br>
 
@@ -73,8 +73,23 @@ cv::cvtColor(image, aux, cv::COLOR_RGB2GRAY);
 
 <br>
 
+### ● FAST-LIO2
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver.git
+$ cd ..
+$ catkin build
+
+$ cd ~/your_workspace/src
+$ git clone --recursive https://github.com/hku-mars/FAST_LIO.git
+$ cd ..
+$ catkin build
+~~~
+
+<br>
+
 ## How to run in Gazebo
-#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), and [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam)
+#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam), and [`FAST-LIO2`](https://github.com/engcang/SLAM-application/tree/main/fast-lio2)
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
 + When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file](https://github.com/engcang/SLAM-application/blob/main/lidar_repair.py)
