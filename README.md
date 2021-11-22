@@ -8,6 +8,7 @@
 ### ● [`video`](https://youtu.be/RCY_q_d2Xm0): Lego-LOAM vs LIO-SAM vs LVI-SAM
 ### ● [`video2`](https://youtu.be/WvgGqeyHNzs): LIO-SAM vs LVI-SAM
 ### ● [`video3`](https://youtu.be/3d4WtK6S4Ms): LIO-SAM vs FAST-LIO2
+### ● [`video4`](https://youtu.be/NmT0o268OLM): FAST-LIO2 vs Livox-mapping vs LOAM-Livox using [`Livox Mid-70 LiDAR`](https://www.livoxtech.com/mid-70)
 
 <br>
 
