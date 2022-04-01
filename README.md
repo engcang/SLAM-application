@@ -1,6 +1,7 @@
 # SLAM-application: installation and test
 + (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), and [Faster-LIO](https://github.com/gaoxiang12/faster-lio)
   + Tested on `Quadruped robot` in `Gazebo`
+  + Tested with real-world data in E3-2 building of KAIST
 
 <br>
 
@@ -119,7 +120,7 @@ $ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_2017072
 <br>
 
 ## How to run in Gazebo
-#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam), and [`FAST-LIO2`](https://github.com/engcang/SLAM-application/tree/main/fast-lio2)
+#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam), [`FAST-LIO2`](https://github.com/engcang/SLAM-application/tree/main/fast-lio2)
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
 + When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file](https://github.com/engcang/SLAM-application/blob/main/lidar_repair.py)
