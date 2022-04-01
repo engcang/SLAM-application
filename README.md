@@ -1,5 +1,5 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), and [FAST-LIO2](https://github.com/hku-mars/FAST_LIO)
++ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), and [Faster-LIO](https://github.com/gaoxiang12/faster-lio)
   + Tested on `Quadruped robot` in `Gazebo`
 
 <br>
@@ -17,12 +17,12 @@
 
 ## Requirements
 + Dependencies
-~~~shell
+~~~bash
 $ sudo apt-get install -y ros-melodic-navigation ros-melodic-robot-localization ros-melodic-robot-state-publisher
 ~~~
 
-+ [GTSAM](https://github.com/borglab/gtsam/releases)
-~~~shell
++ [GTSAM](https://github.com/borglab/gtsam/releases) for `LVI-SAM` and `LIO-SAM`
+~~~bash
 $ wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.2.zip
 $ unzip gtsam.zip
 $ cd gtsam-4.0.2/
@@ -32,7 +32,7 @@ $ sudo make install -j8
 ~~~
 
 + [Ceres solver](http://ceres-solver.org) only for `LVI-SAM`
-~~~shell
+~~~bash
 $ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
 $ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz
 $ tar zxf ceres-solver-1.14.0.tar.gz
@@ -42,6 +42,14 @@ $ cmake ../ceres-solver-1.14.0 -DEXPORT_BUILD_DIR=ON -DCMAKE_INSTALL_PREFIX="../
 $ make -j8 # 8 : number of cores
 $ make test
 $ make install
+~~~
+
++ `g++-9` and `gcc-9` for `Faster-LIO`
+~~~bash
+$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+$ sudo apt update
+$ sudo apt install gcc-9 g++-9
+$ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
 ~~~
 
 <br>
@@ -94,6 +102,18 @@ $ cd ~/your_workspace/src
 $ git clone --recursive https://github.com/hku-mars/FAST_LIO.git
 $ cd ..
 $ catkin build
+~~~
+
+<br>
+
+### ● Faster-LIO
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/gaoxiang12/faster-lio
+$ cd faster-lio/thirdparty
+$ tar -xvf tbb2018_20170726oss_lin.tgz
+$ cd ~/your_workspace
+$ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss
 ~~~
 
 <br>
