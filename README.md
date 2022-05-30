@@ -45,8 +45,9 @@ $ make test
 $ make install
 ~~~
 
-+ `g++-9` and `gcc-9` for `Faster-LIO`
++ `glog`, `g++-9` and `gcc-9` for `Faster-LIO`
 ~~~bash
+$ sudo apt-get install libgoogle-glog-dev
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update
 $ sudo apt install gcc-9 g++-9
