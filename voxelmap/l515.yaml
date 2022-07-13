@@ -5,16 +5,16 @@ common:
 preprocess:
     lidar_type: 3                # L515 LiDAR
     scan_line: 64
-    blind: 0.1
+    blind: 0.5
     point_filter_num: 1
     calib_laser: false
 
 mapping:
-    down_sample_size: 0.1
+    down_sample_size: 0.2
     max_iteration: 3
-    voxel_size: 0.25
-    max_layer: 2 
-    layer_point_size: [20, 10, 10, 5, 5]
+    voxel_size: 0.4
+    max_layer: 3 
+    layer_point_size: [20, 10, 5, 5, 5]
     plannar_threshold: 0.01
     max_points_size: 200
     max_cov_points_size: 200
