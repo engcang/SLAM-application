@@ -169,6 +169,22 @@ $ cd ..
 $ catkin build -DCMAKE_BUILD_TYPE=Release
 ```
 
+#### ● Trouble shooting for R3LIVE
++ `LiDAR incoming frame too old ...`
+  + Original `Livox-ros-driver` does not publish the data with `ROS` timestamp, but `LiDAR` time.
+  + So, use `modified livox-ros-driver` [here](https://github.com/ziv-lin/livox_ros_driver_for_R2LIVE)
+  + If that does not solve the problem, edit `lddc.cpp` yourself, line 563:
+  ```c++
+  //livox_msg.header.stamp = ros::Time((timestamp - init_lidar_tim - packet_offset_time )  / 1e9 + init_ros_time);
+    livox_msg.header.stamp = ros::Time::now();
+    /**************** Modified for R2LIVE **********************/
+    ros::Publisher *p_publisher = Lddc::GetCurrentPublisher(handle);
+    if (kOutputToRos == output_type_)
+    {
+      p_publisher->publish(livox_msg);
+    }
+  ```
+
 #### ● How to properly set configuration for R3LIVE
 + Camera calibration - use `Kalibr` or `camera_calibration`
   + `Kalibr` - refer original [repo](https://github.com/ethz-asl/kalibr)
@@ -185,7 +201,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
     ```bash
     $ roslaunch livox_camera_calib calib.launch
     ```
-#### **Note**: extrinsic rotational parameter from `livox_camera_calib` should be transposed in the `r3live_config.yaml` file. Refer my [extrinsic result](r3live/extrinsic.txt) and [r3live config file](r3live/r3live_config.yaml)
+#### **★Note**: extrinsic rotational parameter from `livox_camera_calib` should be transposed in the `r3live_config.yaml` file. Refer my [extrinsic result](r3live/extrinsic.txt) and [r3live config file](r3live/r3live_config.yaml)
 
 <p align="center">
   <img src="r3live/0.png" width="250"/>
