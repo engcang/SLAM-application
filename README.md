@@ -188,17 +188,24 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 #### **Note**: extrinsic rotational parameter from `livox_camera_calib` should be transposed in the `r3live_config.yaml` file. Refer my [extrinsic result](r3live/extrinsic.txt) and [r3live config file](r3live/r3live_config.yaml)
 
 <p align="center">
-  <img src="r3live/0.png" width="300"/>
-  <img src="r3live/pcd.png" width="300"/>
+  <img src="r3live/0.png" width="250"/>
+  <img src="r3live/pcd.png" width="250"/>
   <br>
   <em>Left: Target image. Right: Target PCD</em>
 </p>
 <p align="center">
-  <img src="r3live/calib.png" width="300"/>
-  <img src="r3live/calib2.png" width="300"/>
+  <img src="r3live/calib.png" width="250"/>
+  <img src="r3live/calib2.png" width="250"/>
   <br>
   <em>Left: calibrated image and residuals. Right: calibrated image</em>
 </p>
+ 
+<p align="center">
+  <img src="r3live/sensor_configuration.jpg" height="350"/>
+  <br>
+  <em>Sensor configuration of mine: `Pixhawk4 mini` as an IMU, `FLIR Blackfly S USB3 (BFS-U3-04S2C-C)`, `LiVOX MID-70`</em>
+</p>
+
 
 <br>
 
