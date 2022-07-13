@@ -1,5 +1,5 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), and [VoxelMap](https://github.com/hku-mars/VoxelMap)
++ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), and [R3LIVE](https://github.com/hku-mars/r3live)
   + Tested on `Quadruped robot` in `Gazebo`
   + Tested with real-world data in E3-2 building of KAIST
 
@@ -58,6 +58,14 @@ $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave 
 + When building `ouster-ros`,
 ```bash
 catkin b -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_BUILD_TYPE=Release
+```
+
++ `CGAL` and `pcl-tools` for `R3LIVE`
+```bash
+$ sudo apt install libcgal-dev pcl-tools
+
+Optionally,
+$ sudo apt install meshlab
 ```
 
 <br>
@@ -153,8 +161,49 @@ $ sudo ln -s /usr/include/lz4hc.h /usr/include/flann/ext/lz4hc.h
 
 <br>
 
-## How to run in Gazebo
-#### ● check each of config files in the folders: [`LeGO-LOAM`](https://github.com/engcang/SLAM-application/tree/main/lego-loam), [`LIO-SAM`](https://github.com/engcang/SLAM-application/tree/main/lio-sam), [`LVI-SAM`](https://github.com/engcang/SLAM-application/tree/main/lvi-sam), [`FAST-LIO2`](https://github.com/engcang/SLAM-application/tree/main/fast-lio2), and [`Faster-LIO`](https://github.com/engcang/SLAM-application/tree/main/faster_lio)
+### ● R3LIVE
+```bash
+$ cd ~/your_workspace/src
+$ git clone https://github.com/hku-mars/r3live.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+#### ● How to properly set configuration for R3LIVE
++ Camera calibration - use `Kalibr` or `camera_calibration`
+  + `Kalibr` - refer original [repo](https://github.com/ethz-asl/kalibr)
+  + `camera_calibration` - use as [here](https://github.com/heethesh/lidar_camera_calibration)
++ Lidar-Camera calibration
+  + Other spinning LiDARs are not supported yet (for RGB mapping), but try to use `lidar_camera_calibration` [repo](https://github.com/heethesh/lidar_camera_calibration), if you want to.
+  + For `LiVOX` LiDAR, use `livox_camera_calib` [repo](https://github.com/hku-mars/livox_camera_calib)
+    + Record a `bag file` of LiVOX LiDAR data and capture the image from `RGB camera` you use.
+    + Convert a `bag file` into a `PCD file` with (change directories in the launch file):
+    ```bash
+    $ roslaunch livox_camera_calib bag_to_pcd.launch
+    ```
+    + Then, calibrate LiDAR and camera as (change directories in the launch and config files):
+    ```bash
+    $ roslaunch livox_camera_calib calib.launch
+    ```
+##### **Note**: extrinsic rotational parameter from `livox_camera_calib` should be transposed in the `r3live_config.yaml` file. Refer my [extrinsic result](r3live/extrinsic.txt) and [r3live config file](r3live/r3live_config.yaml)
+
+<p align="center">
+  <img src="r3live/0.png" width="300"/>
+  <img src="r3live/pcd.png" width="300"/>
+  <br>
+  <em>Left: Target image. Right: Target PCD</em>
+</p>
+<p align="center">
+  <img src="r3live/calib.png" width="300"/>
+  <img src="r3live/calib2.png" width="300"/>
+  <br>
+  <em>Left: calibrated image and residuals. Right: calibrated image</em>
+</p>
+
+<br>
+
+## How to run
+#### ● check each of config files and launch files in the folders of this repo
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
 + When using `CPU ray`, instead of `GPU ray`, height - width should be interchanged, I used [this script file](https://github.com/engcang/SLAM-application/blob/main/lidar_repair.py)
