@@ -1,5 +1,5 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), and [Faster-LIO](https://github.com/gaoxiang12/faster-lio)
++ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), and [VoxelMap](https://github.com/hku-mars/VoxelMap)
   + Tested on `Quadruped robot` in `Gazebo`
   + Tested with real-world data in E3-2 building of KAIST
 
@@ -54,6 +54,12 @@ $ sudo apt install gcc-9 g++-9
 $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
 ~~~
 
+#### Note: `Ouster-ros` package cannot be built with `gcc` and `g++` with the version higher than 6
++ When building `ouster-ros`,
+```bash
+catkin b -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_BUILD_TYPE=Release
+```
+
 <br>
 
 ## Installation
@@ -62,7 +68,7 @@ $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave 
 $ cd ~/your_workspace/src
 $ git clone https://github.com/RobustFieldAutonomyLab/LeGO-LOAM.git
 $ cd ..
-$ catkin build
+$ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
 
 <br>
@@ -72,7 +78,7 @@ $ catkin build
 $ cd ~/your_workspace/src
 $ git clone https://github.com/TixiaoShan/LIO-SAM.git
 $ cd ..
-$ catkin build
+$ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
 
 <br>
@@ -82,7 +88,7 @@ $ catkin build
 $ cd ~/your_workspace/src
 $ git clone https://github.com/TixiaoShan/LVI-SAM.git
 $ cd ..
-$ catkin build
+$ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
 #### ● Trouble shooting for LVI-SAM
 + for `OpenCV 4.X`, edit `LVI-SAM/src/visual_odometry/visual_loop/ThirdParty/DVision/BRIEF.cpp:53`
@@ -98,12 +104,12 @@ cv::cvtColor(image, aux, cv::COLOR_RGB2GRAY);
 $ cd ~/your_workspace/src
 $ git clone https://github.com/Livox-SDK/livox_ros_driver.git
 $ cd ..
-$ catkin build
+$ catkin build -DCMAKE_BUILD_TYPE=Release
 
 $ cd ~/your_workspace/src
 $ git clone --recursive https://github.com/hku-mars/FAST_LIO.git
 $ cd ..
-$ catkin build
+$ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
 
 <br>
@@ -111,11 +117,38 @@ $ catkin build
 ### ● Faster-LIO
 ~~~shell
 $ cd ~/your_workspace/src
-$ git clone https://github.com/gaoxiang12/faster-lio
+$ git clone https://github.com/gaoxiang12/faster-lio.git
+
 $ cd faster-lio/thirdparty
 $ tar -xvf tbb2018_20170726oss_lin.tgz
+
 $ cd ~/your_workspace
-$ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss
+$ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss -DCMAKE_BUILD_TYPE=Release
+~~~
+
+<br>
+
+### ● VoxelMap
+```bash
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+
+$ git clone https://github.com/hku-mars/VoxelMap.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+#### ● Trouble shooting for VoxelMap
++ `/usr/include/lz4.h:196:57: error: conflicting declaration ‘typedef struct LZ4_stream_t LZ4_stream_t’ ...`
+  + You could meet this error in `ROS-melodic`. Fix as [here](https://github.com/ethz-asl/lidar_align/issues/16#issuecomment-504348488)
+~~~bash
+$ sudo mv /usr/include/flann/ext/lz4.h /usr/include/flann/ext/lz4.h.bak
+$ sudo mv /usr/include/flann/ext/lz4hc.h /usr/include/flann/ext/lz4.h.bak
+
+$ sudo ln -s /usr/include/lz4.h /usr/include/flann/ext/lz4.h
+$ sudo ln -s /usr/include/lz4hc.h /usr/include/flann/ext/lz4hc.h
 ~~~
 
 <br>
