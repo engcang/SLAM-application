@@ -1,0 +1,44 @@
+common:
+    lid_topic:  "/camera/depth/color/points"
+    imu_topic:  "/no_imu"
+
+preprocess:
+    lidar_type: 3                # L515 LiDAR
+    scan_line: 64
+    blind: 0.1
+    point_filter_num: 1
+    calib_laser: false
+
+mapping:
+    down_sample_size: 0.1
+    max_iteration: 3
+    voxel_size: 0.25
+    max_layer: 2 
+    layer_point_size: [20, 10, 10, 5, 5]
+    plannar_threshold: 0.01
+    max_points_size: 200
+    max_cov_points_size: 200
+
+noise_model:
+    ranging_cov: 0.05
+    angle_cov: 0.25
+    acc_cov_scale: 0.1
+    gyr_cov_scale: 0.2
+
+imu:
+    imu_en: false
+    extrinsic_T: [ 0, 0, 0]
+    extrinsic_R: [ 1, 0, 0, 
+                   0, 1, 0, 
+                   0, 0, 1]
+
+visualization:
+    pub_voxel_map: true
+    publish_max_voxel_layer: 1         # only publish 0,1 layer's plane
+    pub_point_cloud: false
+    dense_map_enable: false
+    pub_point_cloud_skip: 1            # publish one points per five points
+
+Result:
+    write_kitti_log: false
+    result_path: ""
