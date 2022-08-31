@@ -16,6 +16,8 @@
 #### ● [`video8`](https://youtu.be/7m2XBfcgJPM): VoxelMap in the building using [`Intel Realsense L515`](https://www.intelrealsense.com/lidar-camera-l515/), real-world
 #### ● [`video9`](https://youtu.be/NYaT-bxGjvY): R3LIVE in the building and around the building using [`Livox Mid-70 LiDAR`](https://www.livoxtech.com/mid-70), [`FLIR Blackfly S`](https://www.flirkorea.com/products/blackfly-s-usb3/), [`Pixhawk4 mini`](http://www.holybro.com/product/pixhawk4-mini/), real-world
 
+---
+
 <br>
 
 ## Requirements
@@ -69,6 +71,7 @@ $ sudo apt install libcgal-dev pcl-tools
 Optionally,
 $ sudo apt install meshlab
 ```
+---
 
 <br>
 
@@ -134,6 +137,30 @@ $ tar -xvf tbb2018_20170726oss_lin.tgz
 
 $ cd ~/your_workspace
 $ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss -DCMAKE_BUILD_TYPE=Release
+~~~
+
+
+### ● Faster-LIO on `ARM` architecture (e.g., Jetson Xavier)
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/gaoxiang12/faster-lio.git
+
+$ cd faster-lio/thirdparty
+$ git clone https://github.com/syoyo/tbb-aarch64
+$ cd tbb-aarch64
+$ ./scripts/bootstrap-aarch64-linux.sh
+$ cd build-aarch64
+$ make && make install
+
+$ gedit faster-lio/cmake/packages.cmake
+
+Edit line 13 as:
+    #set(TBB2018_LIBRARY_DIR "${CUSTOM_TBB_DIR}/lib/intel64/gcc4.7")
+    set(TBB2018_LIBRARY_DIR "${CUSTOM_TBB_DIR}/lib")
+
+
+$ cd ~/your_workspace
+$ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb-aarch64/dist -DCMAKE_BUILD_TYPE=Release
 ~~~
 
 <br>
@@ -224,6 +251,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
   <em>Sensor configuration of mine: `Pixhawk4 mini` as an IMU, `FLIR Blackfly S USB3 (BFS-U3-04S2C-C)`, `LiVOX MID-70`</em>
 </p>
 
+---
 
 <br>
 
