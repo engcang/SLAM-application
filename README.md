@@ -135,7 +135,7 @@ $ git clone https://github.com/gaoxiang12/faster-lio.git
 $ cd faster-lio/thirdparty
 $ tar -xvf tbb2018_20170726oss_lin.tgz
 
-$ cd ~/your_workspace
+$ cd ~/your_workspaceBFS-U3-23S3C-C
 $ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss -DCMAKE_BUILD_TYPE=Release
 ~~~
 
@@ -248,7 +248,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 <p align="center">
   <img src="r3live/sensor_configuration.jpg" height="350"/>
   <br>
-  <em>Sensor configuration of mine: `Pixhawk4 mini` as an IMU, `FLIR Blackfly S USB3 (BFS-U3-04S2C-C)`, `LiVOX MID-70`</em>
+  <em>Sensor configuration of mine: Pixhawk4 mini as an IMU, FLIR Blackfly S USB3 (BFS-U3-23S3C-C), LiVOX MID-70</em>
 </p>
 
 ---
