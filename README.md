@@ -135,7 +135,7 @@ $ git clone https://github.com/gaoxiang12/faster-lio.git
 $ cd faster-lio/thirdparty
 $ tar -xvf tbb2018_20170726oss_lin.tgz
 
-$ cd ~/your_workspaceBFS-U3-23S3C-C
+$ cd ~/your_workspace
 $ catkin build -DCUSTOM_TBB_DIR=$(pwd)/src/faster-lio/thirdparty/tbb2018_20170726oss -DCMAKE_BUILD_TYPE=Release
 ~~~
 
