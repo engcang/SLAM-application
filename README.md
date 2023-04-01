@@ -15,6 +15,8 @@
 #### ● [`video7`](https://youtu.be/kr9Z2e8I7YQ): Faster-LIO vs FAST-LIO in the building with narrow stairs using [`Ouster OS0-128`](https://ouster.com/products/scanning-lidar/os0-sensor/), real-world
 #### ● [`video8`](https://youtu.be/7m2XBfcgJPM): VoxelMap in the building using [`Intel Realsense L515`](https://www.intelrealsense.com/lidar-camera-l515/), real-world
 #### ● [`video9`](https://youtu.be/NYaT-bxGjvY): R3LIVE in the building and around the building using [`Livox Mid-70 LiDAR`](https://www.livoxtech.com/mid-70), [`FLIR Blackfly S`](https://www.flirkorea.com/products/blackfly-s-usb3/), [`Pixhawk4 mini`](http://www.holybro.com/product/pixhawk4-mini/), real-world
+#### ● [`video10`](https://youtu.be/3QTjUONviYo): FAST-LIO2 vs Ada-LIO vs Point-LIO vs KISS-ICP in the building with narrow stairs, real-world
+#### ● [`video11`](https://youtu.be/vxFBvXTuFoU): FAST-LIO2 vs Ada-LIO in Gazebo challenging environments
 
 ---
 
@@ -250,6 +252,33 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
   <br>
   <em>Sensor configuration of mine: Pixhawk4 mini as an IMU, FLIR Blackfly S USB3 (BFS-U3-23S3C-C), LiVOX MID-70</em>
 </p>
+
+<br>
+
+### ● Point-LIO
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+
+$ cd ~/your_workspace/src
+$ git clone --recursive https://github.com/hku-mars/Point-LIO.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+~~~
+
+<br>
+
+### ● KISS-ICP (ROS1)
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/PRBonn/kiss-icp.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+~~~
+
+<br>
 
 ---
 
