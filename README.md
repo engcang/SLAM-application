@@ -17,7 +17,7 @@
 #### ● [`video9`](https://youtu.be/NYaT-bxGjvY): R3LIVE in the building and around the building using [`Livox Mid-70 LiDAR`](https://www.livoxtech.com/mid-70), [`FLIR Blackfly S`](https://www.flirkorea.com/products/blackfly-s-usb3/), [`Pixhawk4 mini`](http://www.holybro.com/product/pixhawk4-mini/), real-world
 #### ● [`video10`](https://youtu.be/3QTjUONviYo): FAST-LIO2 vs Ada-LIO vs Point-LIO vs KISS-ICP in the building with narrow stairs, real-world
 #### ● [`video11`](https://youtu.be/vxFBvXTuFoU): FAST-LIO2 vs Ada-LIO in Gazebo challenging environments
-#### ● [`video12`](): DLO vs FAST-LIO2
+#### ● [`video12`](https://youtu.be/0udb2fRG6HY): DLO vs FAST-LIO2
 
 ---
 
