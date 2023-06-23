@@ -1,5 +1,5 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), and [R3LIVE](https://github.com/hku-mars/r3live)
++ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), and [DLO](https://github.com/vectr-ucla/direct_lidar_odometry)
   + Tested on `Quadruped robot` in `Gazebo`
   + Tested with real-world data in E3-2 building of KAIST
 
@@ -17,6 +17,7 @@
 #### ● [`video9`](https://youtu.be/NYaT-bxGjvY): R3LIVE in the building and around the building using [`Livox Mid-70 LiDAR`](https://www.livoxtech.com/mid-70), [`FLIR Blackfly S`](https://www.flirkorea.com/products/blackfly-s-usb3/), [`Pixhawk4 mini`](http://www.holybro.com/product/pixhawk4-mini/), real-world
 #### ● [`video10`](https://youtu.be/3QTjUONviYo): FAST-LIO2 vs Ada-LIO vs Point-LIO vs KISS-ICP in the building with narrow stairs, real-world
 #### ● [`video11`](https://youtu.be/vxFBvXTuFoU): FAST-LIO2 vs Ada-LIO in Gazebo challenging environments
+#### ● [`video12`](): DLO vs FAST-LIO2
 
 ---
 
@@ -277,6 +278,18 @@ $ git clone https://github.com/PRBonn/kiss-icp.git
 $ cd ..
 $ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
+
+<br>
+
+### ● DLO
+```shell
+$ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
+$ cd ~/your_workspace/src
+$ git clone https://github.com/vectr-ucla/direct_lidar_odometry.git
+$ cd ..
+$ catkin build
+```
+
 
 <br>
 
