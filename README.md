@@ -35,7 +35,7 @@ $ wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.2.zip
 $ unzip gtsam.zip
 $ cd gtsam-4.0.2/
 $ mkdir build && cd build
-$ cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF ..
+$ cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF -DGTSAM_USE_SYSTEM_EIGEN=ON ..
 $ sudo make install -j8
 ~~~
 
