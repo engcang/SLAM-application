@@ -1,11 +1,11 @@
 # SLAM-application: installation and test
-+ (3D): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), and [DLO](https://github.com/vectr-ucla/direct_lidar_odometry)
-  + Tested on `Quadruped robot` in `Gazebo`
-  + Tested with real-world data in E3-2 building of KAIST
++ 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), and [DLO](https://github.com/vectr-ucla/direct_lidar_odometry)
++ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI)
 
 <br>
 
 ## ● Results: 
+### Single-LiDAR
 #### ● [`video`](https://youtu.be/RCY_q_d2Xm0): Lego-LOAM vs LIO-SAM vs LVI-SAM
 #### ● [`video2`](https://youtu.be/WvgGqeyHNzs): LIO-SAM vs LVI-SAM
 #### ● [`video3`](https://youtu.be/3d4WtK6S4Ms): LIO-SAM vs FAST-LIO2
@@ -18,7 +18,8 @@
 #### ● [`video10`](https://youtu.be/3QTjUONviYo): FAST-LIO2 vs Ada-LIO vs Point-LIO vs KISS-ICP in the building with narrow stairs, real-world
 #### ● [`video11`](https://youtu.be/vxFBvXTuFoU): FAST-LIO2 vs Ada-LIO in Gazebo challenging environments
 #### ● [`video12`](https://youtu.be/0udb2fRG6HY): DLO vs FAST-LIO2
-
+### Multi-LiDARs
+#### ● [`video13`](https://youtu.be/YQmjKMoBPNU): FAST-LIO-MULTI bundle update vs asynchronous update
 ---
 
 <br>
@@ -288,6 +289,18 @@ $ cd ~/your_workspace/src
 $ git clone https://github.com/vectr-ucla/direct_lidar_odometry.git
 $ cd ..
 $ catkin build
+```
+
+<br>
+
+### ● FAST-LIO-MULTI
+```shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver
+$ git clone https://github.com/engcang/FAST_LIO_MULTI
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+$ . devel/setup.bash
 ```
 
 
