@@ -18,6 +18,7 @@
 #### ● [`video10`](https://youtu.be/3QTjUONviYo): FAST-LIO2 vs Ada-LIO vs Point-LIO vs KISS-ICP in the building with narrow stairs, real-world
 #### ● [`video11`](https://youtu.be/vxFBvXTuFoU): FAST-LIO2 vs Ada-LIO in Gazebo challenging environments
 #### ● [`video12`](https://youtu.be/0udb2fRG6HY): DLO vs FAST-LIO2
+#### ● [`video13`](https://youtu.be/r9wwldPYKUw): DLO vs DLIO vs Ada-LIO vs FAST-LIO2
 ### Multi-LiDARs
 #### ● [`video13`](https://youtu.be/YQmjKMoBPNU): FAST-LIO-MULTI bundle update vs asynchronous update
 ---
