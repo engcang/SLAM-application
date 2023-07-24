@@ -24,8 +24,8 @@
 
 <br>
 
-## Requirements
-+ Dependencies
+## Dependencies
++ Common packages
 ~~~bash
 $ sudo apt-get install -y ros-melodic-navigation ros-melodic-robot-localization ros-melodic-robot-state-publisher
 ~~~
@@ -287,6 +287,17 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 $ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
 $ cd ~/your_workspace/src
 $ git clone https://github.com/vectr-ucla/direct_lidar_odometry.git
+$ cd ..
+$ catkin build
+```
+
+<br>
+
+### ● DLIO
+```shell
+$ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
+$ cd ~/your_workspace/src
+$ git clone https://github.com/vectr-ucla/direct_lidar_inertial_odometry.git
 $ cd ..
 $ catkin build
 ```
