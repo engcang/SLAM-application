@@ -1,5 +1,5 @@
 # SLAM-application: installation and test
-+ 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), and [SLAMesh](https://github.com/RuanJY/SLAMesh)
++ 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), and [ImMesh](https://github.com/hku-mars/ImMesh)
 + 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI)
 
 <br>
@@ -21,6 +21,7 @@
 + [`video13`](https://youtu.be/r9wwldPYKUw): DLO vs DLIO vs Ada-LIO vs FAST-LIO2
 + [`video15`](https://youtu.be/NHPvLbztawY): Ada-LIO vs PV-LIO vs SLAMesh
 + [`video16`](https://youtu.be/0sVkY66pOpI): Ada-LIO vs PV-LIO
++ [`video17`](https://youtu.be/rOOKY9HVHzI): Ada-LIO vs ImMesh
 ### Multi-LiDARs
 + [`video14`](https://youtu.be/YQmjKMoBPNU): FAST-LIO-MULTI bundle update vs asynchronous update
 ---
@@ -363,6 +364,22 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 target_link_libraries(slamesh ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${G2O_LIBS} ${CERES_LIBRARIES} ${LVR2_LIBRARIES})
 ```
 
+
+<br>
+
+### ● ImMesh
+```shell
+$ sudo apt-get install ros-noetic-cv-bridge ros-noetic-tf ros-noetic-message-filters ros-noetic-image-transport*
+$ sudo apt-get install -y libcgal-dev pcl-tools libgl-dev libglm-dev libglfw3-dev libglew-dev libglw1-mesa-dev libxkbcommon-x11-dev
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver
+$ git clone https://github.com/hku-mars/ImMesh
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+#### ● Trouble shooting for ImMesh
++ Use Ubuntu >= 20.04. Otherwise, `CGAL` version issue will bother you.
 
 <br>
 
