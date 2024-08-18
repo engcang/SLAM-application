@@ -1,6 +1,6 @@
 # SLAM-application: installation and test
 + 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), and [ImMesh](https://github.com/hku-mars/ImMesh)
-+ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI) and [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0)
++ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI), [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0), and [MA-LIO](https://github.com/minwoo0611/MA-LIO)
 
 <br>
 
@@ -372,6 +372,8 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
+---
+
 ## Installation (Multi-LiDARs)
 ### ● FAST-LIO-MULTI
 ```shell
@@ -423,6 +425,24 @@ wget https://github.com/brytsknguyen/slict/archive/refs/tags/slict.1.0.tar.gz
 tar -zxf slict.1.0.tar.gz
 cd ..
 catkin build
+```
+
+<br>
+
+### ● MA-LIO
+```shell
+cd workspace/src
+git clone https://github.com/minwoo0611/MA-LIO.git
+cd..
+catkin build
+```
+#### ● Trouble shooting for MA-LIO
++ If you get `PCL` error, just comment the `find_package` in `MA_LIO/CMakeLists.txt`
+```cmake
+#before
+find_package(PCL 1.8 REQUIRED)
+#after
+#find_package(PCL 1.8 REQUIRED)
 ```
 
 ---
