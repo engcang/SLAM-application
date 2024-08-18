@@ -1,0 +1,64 @@
+<launch>
+
+      <arg name="publish_clock" default="--clock"/>
+      <arg name="autorun" default="0"/>
+      <arg name="loop_en" default="0"/>
+
+      <!-- NTU VIRAL dataset . Downloadable at: https://ntu-aris.github.io/ntuviral_dataset -->
+
+      <arg name="data_path" default="/media/tmn/mySataSSD21/DATASETS/NTU_VIRAL/DATA/"/>
+      
+      <!-- <arg  name="bag_file" default="$(arg data_path)/eee_01/eee_01*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/eee_02/eee_02*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/eee_02/eee_02*.bag"/> -->
+      
+      <!-- <arg  name="bag_file" default="$(arg data_path)/nya_01/nya_01*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/nya_02/nya_02*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/nya_03/nya_03*.bag"/> -->
+      
+      <!-- <arg  name="bag_file" default="$(arg data_path)/sbs_01/sbs_01*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/sbs_02/sbs_02*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/sbs_03/sbs_03*.bag"/> -->
+
+      <!-- <arg  name="bag_file" default="$(arg data_path)/rtp_01/rtp_01*.bag"/>   -->
+      <arg  name="bag_file" default="$(arg data_path)/rtp_02/rtp_02*.bag"/>  
+      <!-- <arg  name="bag_file" default="$(arg data_path)/rtp_03/rtp_03*.bag"/>   -->
+
+      <!-- <arg  name="bag_file" default="$(arg data_path)/spms_01/spms_01*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/spms_02/spms_02*.bag"/> -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/spms_03/spms_03*.bag"/> -->
+
+      <!-- <arg  name="bag_file" default="$(arg data_path)/tnp_01/tnp_01*.bag"/>   -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/tnp_02/tnp_02*.bag"/>   -->
+      <!-- <arg  name="bag_file" default="$(arg data_path)/tnp_03/tnp_03*.bag"/>   -->
+
+      <!-- Directory to log the bundle adjustment poses, pointclouds, and others-->
+      <arg name="exp_log_dir" default="/home/$(env USER)/slict_logs/ntuviral"/>
+
+      <!-- Load the param -->
+      <rosparam file="$(find slict)/config/ntuviral.yaml" command="load"/>
+      <!-- Set some exp related params -->
+      <param name="/autoexit" type="int"    value="$(arg autorun)" />
+      <param name="/loop_en"  type="int"    value="$(arg loop_en)" />
+      <param name="/log_dir"  type="string" value="$(arg exp_log_dir)" />
+
+      <!-- Run the sensor sync -->
+      <node pkg="slict" type="slict_sensorsync" name="slict_sensorsync" respawn="false" output="log" required="true"/>
+
+      <!-- Run the Estimator -->
+      <node pkg="slict" required="true" type="slict_estimator" name="slict_estimator" respawn="false" output="screen"/>
+
+      <!--- Run Rviz-->
+      <node pkg="rviz" type="rviz" name="rviz" respawn="true" output="log"
+            args="-d $(find slict)/launch/ntuviral.rviz" />
+
+      <!-- Play the bag file -->
+      <param name="/use_sim_time" value="false" />
+
+      <!-- <node required="false" pkg="rosbag" type="play" name="rosbag_player"
+            args="$(arg publish_clock) $(arg bag_file) -r 1.0 "
+            launch-prefix="bash -c 'sleep 1; $0 $@' "/> -->
+
+      <!-- <node pkg="tf" type="static_transform_publisher" name="base2view" args="0 0 0 0 0 0 world local 1"/> -->
+
+</launch>
