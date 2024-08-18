@@ -1,6 +1,6 @@
 # SLAM-application: installation and test
 + 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), and [ImMesh](https://github.com/hku-mars/ImMesh)
-+ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI), [LOCUS2.0](https://github.com/NeBula-Autonomy/LOCUS), [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0), and [MA-LIO](https://github.com/minwoo0611/MA-LIO)
++ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI), [M-LOAM](https://github.com/gogojjh/M-LOAM), [LOCUS2.0](https://github.com/NeBula-Autonomy/LOCUS), [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0), and [MA-LIO](https://github.com/minwoo0611/MA-LIO)
 
 <br>
 
@@ -48,7 +48,7 @@ $ sudo make install -j8
 ~~~bash
 $ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
 $ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz #LVI-SAM
-$ wget http://ceres-solver.org/ceres-solver-2.1.0.tar.gz #SLAMesh
+$ wget http://ceres-solver.org/ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
 $ tar zxf ceres-solver-1.14.0.tar.gz #LVI-SAM
 $ tar zxf ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
 $ mkdir ceres-bin
@@ -387,7 +387,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 <br>
 
 ### ● SLICT1.0
-+ It need `Ceres` 2.1.0
++ It need `Ceres` >= 2.1.0
 ```shell
 sudo apt install libsuitesparse-dev libtbb-dev
 sudo apt install ros-noetic-tf2-sensor-msgs ros-noetic-tf-conversions
@@ -458,6 +458,53 @@ git clone https://github.com/NeBula-Autonomy/LOCUS.git
 git clone https://github.com/NeBula-Autonomy/common_nebula_slam.git
 cd ..
 catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+<br>
+
+### ● M-LOAM - Thanks to [Chanjoon](https://github.com/chanjoon)
++ It need `Ceres` >= 2.1.0
+```shell
+sudo apt install libomp-dev
+cd workspace/src
+git clone https://github.com/gogojjh/M-LOAM.git
+cd ..
+catkin build -DCMAKE_BUILD_TYPE=Release
+```
+#### ● Trouble shooting for M-LOAM
++ If you get `pcl_conversion` error, just comment them in `src/rosXXX.cpp`
+```cpp
+// #include <pcl/ros/conversions.h>
+```
++ If you get `cv` error in `kittiHelper.cpp`, fix them as:
+```cpp
+// cv::Mat left_image = cv::imread(left_image_path.str(), CV_LOAD_IMAGE_GRAYSCALE);
+// cv::Mat right_image = cv::imread(left_image_path.str(), CV_LOAD_IMAGE_GRAYSCALE);
+cv::Mat left_image = cv::imread(left_image_path.str(), cv::IMREAD_GRAYSCALE);
+cv::Mat right_image = cv::imread(left_image_path.str(), cv::IMREAD_GRAYSCALE);
+```
++ You will get segmentation fault right after running the code, fix `M-LOAM/estimator/src/imageSegmenter/image_segmenter.hpp`
+```cpp
+// before
+//dist = sqrt(d1 * d1 + d2 * d2 - 2 * d1 * d2 * cos(alpha));
+//alpha = iter->first == 0 ? segment_alphax_ : segment_alphay_;
+
+// after (order matters)
+alpha = iter->first == 0 ? segment_alphax_ : segment_alphay_;
+dist = sqrt(d1 * d1 + d2 * d2 - 2 * d1 * d2 * cos(alpha));
+
+// before
+//cloud_scan[i].erase(cloud_scan[i].begin() + cloud_scan_order[index]);
+//if (j % 5 == 0)
+//    laser_cloud_outlier.push_back(cloud_matrix.points[index]);
+
+// after
+if (cloud_scan_order[index] >= 0 && cloud_scan_order[index] < cloud_scan[i].size())
+{
+    cloud_scan[i].erase(cloud_scan[i].begin() + cloud_scan_order[index]);
+    if (j % 5 == 0)
+        laser_cloud_outlier.push_back(cloud_matrix.points[index]);
+}
 ```
 
 ---

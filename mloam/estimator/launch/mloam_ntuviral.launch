@@ -1,0 +1,51 @@
+<launch>
+
+    <!-- <include file="$(find rviz_car_model)/launch/default.launch" >
+        <arg name="fixed_frame" value="base_link" />
+        <arg name="transform" value="0 0 0 -0.1131 -0.0433 -0.0049 0.9926" />
+    </include>     -->
+
+    <arg name="run_mloam" default="true" />
+    <arg name="run_mloam_odom" default="true" />
+    <arg name="run_mloam_mapping" default="true" />    
+    <arg name="run_aloam" default="false" />
+    <arg name="run_floam" default="false" />
+    <arg name="run_legoloam" default="false" />
+
+    <arg name="data_source" default="bag"/>
+    <arg name="result_save" default="false"/>
+    <arg name="output_path" default="/home/jjiao/trajectory_results/handheld/xxxxx"/>
+    <arg name="with_ua" default="true" /> <!-- awareness of uncertainty propagation-->    
+    <arg name="gf_method" default="wo_gf" /> <!-- gd_fix, gd_float, rnd, fps, wo_gf-->
+    <arg name="gf_ratio_ini" default="1.0" />
+
+    <arg name="config_file" default="$(find mloam)/config/config_ntuviral.yaml" />
+    <group if="$(arg run_mloam)">
+        <group if="$(arg run_mloam_odom)">
+            <node pkg="mloam" type="mloam_node_rhd" name="mloam_node_rhd" 
+                args="-config_file=$(arg config_file)
+                    -result_save=$(arg result_save)
+                    -output_path=$(arg output_path)" >
+            </node>
+        </group>
+        <group if="$(arg run_mloam_mapping)">
+            <node pkg="mloam" type="lidar_mapper_keyframe" name="lidar_mapper_keyframe"
+                args="-config_file=$(arg config_file)
+                      -result_save=$(arg result_save) 
+                      -output_path=$(arg output_path)
+                      -with_ua=$(arg with_ua)
+                      -gf_method=$(arg gf_method)
+                      -gf_ratio_ini=$(arg gf_ratio_ini)" output="screen">
+                <remap from="/laser_odom" to="/laser_odom_0"/>
+            </node>
+        </group>
+    </group>
+    
+    <!-- publish static tf -->
+    <!-- x y z yaw pitch roll -->
+    <!-- x y z qx qy qz qw -->
+
+    <node name="static_tf_world_base_into_world_sensor" pkg="tf" type="static_transform_publisher"
+          args="0 0 0 1 0 0 0 world_viz world 1"/> 
+
+ </launch>

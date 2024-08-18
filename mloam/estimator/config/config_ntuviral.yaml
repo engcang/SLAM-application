@@ -1,0 +1,134 @@
+%YAML:1.0
+
+# Multiple thread support
+multiple_thread: 6
+
+# segmmentation
+segment_cloud: 1 # RHD02lab: 1, RHD03garden: 1, RHD04building: 1
+horizon_scan: 1024
+min_cluster_size: 30
+segment_valid_point_num: 5
+segment_valid_line_num: 3
+segment_theta: 0.53 # Lego-loam: 1.0
+
+# laser parameters
+idx_ref: 0
+n_scans: 16
+num_of_laser: 2
+
+cloud_topic:
+   - "/os1_cloud_node1/points"
+   - "/os1_cloud_node2/points"
+
+# window sizes
+window_size: 12
+opt_window_size: 2
+
+############################## For normal use
+# Extrinsic parameter between multiple LiDARs.
+estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+                        # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
+                        # 2  Have no prior about extrinsic parameters. We will initialize and optimize around them
+
+# qx qy qz qw px py pz
+body_T_laser: !!opencv-matrix
+   rows: 2
+   cols: 7
+   dt: d
+   data: [ 0.00,  0.00,  0.00,  1.00,
+           0.00,  0.00,  0.00,
+           0.00,  0.707106781186547,  0.707106781186547,  0.0,
+          -0.50,  0.03, -0.005] # PS-Calib
+
+#unsynchronization parameters
+estimate_td: 0                      # 0 have an accurate time offset among sensors
+                                    # 1 online estimate time offset among sensors
+
+td: !!opencv-matrix                 # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+   rows: 1
+   cols: 2
+   dt: d
+   data: [0, 0]
+
+distortion: 0
+scan_period: 0.1
+laser_sync_threshold: 0.07
+
+######################################################## odometry
+# optimization 
+max_solver_time: 0.1     # max solver itration time (s), to guarantee real time
+max_num_iterations: 20   # max solver itrations, to guarantee real time
+
+roi_range: 0.5
+distance_sq_threshold: 25
+nearby_scan: 2.5
+
+# movement type
+planar_movement: 0
+
+# feature corresponding paprameters
+min_match_sq_dis: 1.0
+min_plane_dis: 0.2
+
+# factor
+marginalization_factor: 1
+point_plane_factor: 1
+point_edge_factor: 1
+prior_factor: 1
+prior_factor_pos: 5
+prior_factor_rot: 40
+
+pcl_viewer: 0
+pcl_viewer_normal_ratio: 10
+
+# calibration converage parameters
+n_cumu_feature: 20
+lambda_initial: 100
+lambda_thre_calib: 70
+n_calib: 25
+
+# good feature
+odom_gf_ratio: 0.8
+
+skip_num_odom_pub: 2
+
+######################################################## mapping
+map_corner_res: 0.2
+map_surf_res: 0.4
+map_outlier_res: 0.8
+map_sur_kf_res: 1.0
+map_eig_thre: 100
+map_deg_thre: 42
+
+distance_keyframes: 1.0
+orientation_keyframes: 1.0 
+surrounding_kf_radius: 30.0
+
+# uncertainty parameter
+# translation, rotation, point (rho, phi, zeta)
+uct_ext: !!opencv-matrix
+   rows: 2
+   cols: 6
+   dt: d
+   data: [0, 0, 0, 0, 0, 0,
+          0.00270, 0.00330, 0.00624, 0.00018, 0.00005, 0.00014] # after calibration 
+         #  0.0025, 0.0025, 0.0025, 0.00030461, 0.00030461, 0.00030461] # manual setting for large perturbation
+         #  0.0025, 0.0025, 0.0025, 0.01, 0.01, 0.01] # variance: 0.05m, 5deg # large
+
+
+uct_measurement: !!opencv-matrix
+   rows: 1
+   cols: 3
+   dt: d
+   data: [0.0025, 0.0025, 0.0025]
+
+uct_ext_ratio: 1.0 # small or other RHD: 0.1, little: 0.5, medium: 1, large: 15
+
+# RHD02: 10, RHD03: 10, RHD04: 10
+trace_threshold_mapping: 100 # min_d: 20
+
+# 1. 10m: 1.25
+# 2. 20m: 7.8
+# 3. 30m: 11.5
+# 4. 40m: 20
+# 5. 50m: 31.25
