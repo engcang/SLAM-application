@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot name="husky_sensors" xmlns:xacro="http://ros.org/wiki/xacro">
+<xacro:property name="sensor_props" value="${load_yaml('$(find sensor_description)/config/$(arg robot_namespace)_sensors.yaml')}" />
+
+  <!-- Base Link -->
+  <link name="base_link"/>
+
+  <!-- Arch -->
+  <link name="arch"/>
+  <joint name="top_plate_link_to_arch" type="fixed">
+    <parent link="base_link" />
+    <child link="arch" />
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" />
+  </joint>
+
+  <link name="sensor1/os_sensor"/>
+  <joint name="arch_to_sensor1" type="fixed">
+    <parent link="arch" />
+    <child link="sensor1/os_sensor" />
+    <origin xyz="0.05 0 0.055" rpy="0 0 0"/>
+  </joint>
+
+  <link name="sensor2/os_sensor"/>
+  <joint name="arch_to_sensor2" type="fixed">
+    <parent link="arch" />
+    <child link="sensor2/os_sensor" />
+    <origin xyz="-0.55 0.03 0.09" rpy="1.5707963 0 3.1415927"/>
+  </joint>
+
+  <link name="imu"/>
+  <joint name="arch_to_imu" type="fixed">
+    <parent link="arch" />
+    <child link="imu" />
+    <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,132 @@
+<launch>
+ 
+    <arg name="robot_namespace" default="ntuviral"/>
+    <arg name="robot_type" value="ntuviral"/>
+
+    <arg name="nodelet_manager" value="nodelet_manager"/>
+    <arg name="launch_prefix" value=""/>
+    <arg name="nodelet_args" value="--no-bond"/>
+    <arg name="respawn" value="true"/>
+
+    <arg name="number_of_velodynes" default="2" />
+    <arg name="b_use_multiple_pc" default="true"/>
+    <arg name="pc_input" value="locus_input"/>
+
+    <!-- 0:TOP, 1:FRONT, 2:REAR -->
+    <arg name="pc_trans_in_0" default="os1/points"/>
+    <arg name="pc_trans_in_1" default="os2/points"/>
+
+    <!-- Load robot description -->
+    <include file="$(find locus)/launch/robot_description.launch">
+        <arg name="robot_namespace" value="$(arg robot_namespace)"/>
+    </include>
+
+    <group ns="$(arg robot_namespace)">
+        <!-- Load parameters -->
+        <rosparam file="$(find locus)/config/body_filter_params_$(arg robot_type).yaml"
+                    subst_value="true"/>
+
+        <node
+            pkg="locus"
+            name="locus"
+            type="locus_node"
+            output="screen">           
+            <remap from="~LIDAR_TOPIC" to="$(arg pc_input)"/>
+            <remap from="~IMU_TOPIC" to="/imu/imu"/>            
+            <remap from="~SPACE_MONITOR_TOPIC" to="localizer_space_monitor/xy_cross_section"/>
+
+            <param name="robot_name" value="$(arg robot_namespace)"/>
+            <param name="b_integrate_interpolated_odom" value="false"/>
+
+            <rosparam file="$(find locus)/config/lo_settings.yaml" />
+
+            <param name="b_pub_odom_on_timer" value="false"/>
+            <rosparam file="$(find locus)/config/lo_frames.yaml" subst_value="true"/>
+            <rosparam file="$(find point_cloud_filter)/config/parameters.yaml"/>
+            <rosparam file="$(find point_cloud_odometry)/config/parameters.yaml"/>          
+            <rosparam file="$(find point_cloud_localization)/config/ntuviral.yaml"/>
+            <rosparam file="$(find point_cloud_mapper)/config/parameters.yaml"/>
+
+            <param name="localization/num_threads"       value="4"/>
+            <param name="icp/num_threads"                value="4"/>
+            <param name="mapper/num_threads"             value="4"/>
+        </node>
+
+        <node pkg="nodelet"
+            type="nodelet"
+            name="transform_points_base_link"
+            args="standalone pcl/PassThrough">
+            <remap from="~input" to="/os1_cloud_node1/points"/>
+            <remap from="~output" to="$(arg pc_trans_in_0)"/>
+            <rosparam subst_value="true">
+                filter_field_name: z
+                filter_limit_min: -100
+                filter_limit_max: 100
+                output_frame: base_link
+            </rosparam>
+        </node>
+
+        <node pkg="nodelet"
+            type="nodelet"
+            name="transform_points_base_link_front"
+            args="standalone pcl/PassThrough">
+            <remap from="~input" to="/os1_cloud_node2/points"/>
+            <remap from="~output" to="$(arg pc_trans_in_1)"/>
+            <rosparam subst_value="true">
+                filter_field_name: z
+                filter_limit_min: -100
+                filter_limit_max: 100
+                output_frame: base_link
+            </rosparam>
+        </node>
+
+        <node pkg="point_cloud_merger" type="point_cloud_merger_node" name="point_cloud_merger_lo" output="screen">
+            <rosparam file="$(find point_cloud_merger)/config/parameters.yaml"/>
+            <param name="merging/number_of_velodynes" value="$(arg number_of_velodynes)"/>
+            <remap from="~pcld0" to="$(arg pc_trans_in_0)"/>
+            <remap from="~pcld1" to="$(arg pc_trans_in_1)"/>
+            <remap from="~combined_point_cloud" to="combined_point_cloud"/>
+        </node>    
+
+        <node pkg="nodelet"
+              type="nodelet"
+              name="$(arg nodelet_manager)"
+              launch-prefix="$(arg launch_prefix)"
+              args="manager"
+              respawn="$(arg respawn)"/>
+        
+        <node pkg="nodelet"
+              type="nodelet"
+              name="body_filter"
+              args="load point_cloud_filter/BodyFilter $(arg nodelet_manager) $(arg nodelet_args)"
+              respawn="$(arg respawn)">
+          <remap from="~input" to="combined_point_cloud"/>
+        </node>
+
+
+        <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load point_cloud_filter/CustomVoxelGrid $(arg nodelet_manager)" output="screen" respawn="true">
+            <remap from="~input" to="body_filter/output" />
+
+            <rosparam subst_value="true">
+            filter_field_name: z
+            filter_limit_min: -100
+            filter_limit_max: 100
+            filter_limit_negative: False
+            leaf_size: 0.25
+            output_frame: base_link
+            </rosparam>
+        </node>
+
+        <node pkg="nodelet"
+            type="nodelet"
+            name="normal_computation"
+            args="load point_cloud_filter/NormalComputation $(arg nodelet_manager) $(arg nodelet_args)"
+            respawn="$(arg respawn)">
+            <remap from="~input" to="voxel_grid/output"/>
+            <remap from="~output" to="$(arg pc_input)" />
+           <param name="num_threads"                value="4"/>
+        </node>
+      
+    </group>
+ 
+</launch>
