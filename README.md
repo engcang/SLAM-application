@@ -1,6 +1,6 @@
 # SLAM-application: installation and test
 + 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), and [ImMesh](https://github.com/hku-mars/ImMesh)
-+ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI)
++ 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI) and [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0)
 
 <br>
 
@@ -44,13 +44,13 @@ $ cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF -DGTSAM_USE_SYSTEM_EIGEN=ON ..
 $ sudo make install -j8
 ~~~
 
-+ [Ceres solver](http://ceres-solver.org) for `LVI-SAM` and `SLAMesh`
++ [Ceres solver](http://ceres-solver.org) for `LVI-SAM`, `SLAMesh`, and `SLICT1.0`
 ~~~bash
 $ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
 $ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz #LVI-SAM
 $ wget http://ceres-solver.org/ceres-solver-2.1.0.tar.gz #SLAMesh
 $ tar zxf ceres-solver-1.14.0.tar.gz #LVI-SAM
-$ tar zxf ceres-solver-2.1.0.tar.gz #SLAMesh
+$ tar zxf ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
 $ mkdir ceres-bin
 $ mkdir solver && cd ceres-bin
 $ cmake ../ceres-solver-1.14.0 -DEXPORT_BUILD_DIR=ON -DCMAKE_INSTALL_PREFIX="../solver"  #good for build without being root privileged and at wanted directory
@@ -310,17 +310,6 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
-### ● FAST-LIO-MULTI
-```shell
-$ cd ~/your_workspace/src
-$ git clone https://github.com/Livox-SDK/livox_ros_driver
-$ git clone https://github.com/engcang/FAST_LIO_MULTI
-$ cd ..
-$ catkin build -DCMAKE_BUILD_TYPE=Release
-```
-
-<br>
-
 ### ● PV-LIO
 ```shell
 $ cd ~/your_workspace/src
@@ -382,6 +371,59 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 + Use Ubuntu >= 20.04. Otherwise, `CGAL` version issue will bother you.
 
 <br>
+
+## Installation (Multi-LiDARs)
+### ● FAST-LIO-MULTI
+```shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/Livox-SDK/livox_ros_driver
+$ git clone https://github.com/engcang/FAST_LIO_MULTI
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+<br>
+
+### ● SLICT1.0
++ It need `Ceres` 2.1.0
+```shell
+sudo apt install libsuitesparse-dev libtbb-dev
+sudo apt install ros-noetic-tf2-sensor-msgs ros-noetic-tf-conversions
+sudo apt install libatlas-base-dev libeigen3-dev libgoogle-glog-dev
+sudo apt install python3-wstool python3-catkin-tools python3-osrf-pycommon
+
+cd workspace_1
+git clone https://github.com/Livox-SDK/Livox-SDK
+cd Livox-SDK/build
+cmake .. && sudo make install -j12
+
+cd workspace_1
+git clone https://github.com/Livox-SDK/Livox-SDK2
+cd Livox-SDK2 && mkdir build && cd build
+cmake .. && sudo make install -j12
+
+cd workspace_1/src
+git clone https://github.com/livox-SDK/livox_ros_driver
+git clone https://github.com/livox-SDK/livox_ros_driver2
+cd livox_ros_driver2
+./build.sh ROS1
+
+
+>>> Make chained workspace, it will be good for your mental health
+>>> because of livox_ros_driver2
+cd workspace_2
+source workspace_1/devel/setup.bash
+
+cd workspace_2/src
+git clone https://github.com/brytsknguyen/ufomap 
+cd ufomap && git checkout devel_surfel
+
+cd workspace_2/src
+wget https://github.com/brytsknguyen/slict/archive/refs/tags/slict.1.0.tar.gz
+tar -zxf slict.1.0.tar.gz
+cd ..
+catkin build
+```
 
 ---
 
