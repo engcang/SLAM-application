@@ -444,6 +444,20 @@ find_package(PCL 1.8 REQUIRED)
 #after
 #find_package(PCL 1.8 REQUIRED)
 ```
++ You might have to fix the `laserMapping.cpp` file's uncertainty calculation part
+```cpp
+// before
+...
+// for (int i = 0; i < (int)kf.lidar_uncertainty[num].size() - 1; i++)
+...
+// for (int i = 0; i < (int)kf.lidar_uncertainty[num].size() - 1; i++)
+
+// after
+...
+for (int i = 0; i < (int)kf.lidar_uncertainty[num].size(); i++)
+...
+for (int i = 0; i < (int)kf.lidar_uncertainty[num].size(); i++)
+```
 
 <br>
 
