@@ -379,7 +379,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 ```shell
 $ cd ~/your_workspace/src
 $ git clone https://github.com/Livox-SDK/livox_ros_driver
-$ git clone https://github.com/engcang/FAST_LIO_MULTI
+$ git clone https://github.com/engcang/FAST_LIO_MULTI --recursive
 $ cd ..
 $ catkin build -DCMAKE_BUILD_TYPE=Release
 ```
