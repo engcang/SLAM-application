@@ -3,9 +3,9 @@ autoexit:           0
 
 # Declare the lidar topics to merge
 lidar_topic:        [
-                      "/os1_cloud_node1/points"
+                      "/livox/lidar_ouster1"
                       ,
-                      "/os1_cloud_node2/points"
+                      "/livox/lidar_ouster2"
                     ]
 
 merged_lidar_topic: "/merged_pc"
@@ -15,23 +15,23 @@ merged_lidar_topic: "/merged_pc"
 # whether stamp is at beginning (1.000) or end (0.000) of scan
 lidar_extr:         [
                       # Horizontal
-                      1.0,  0.0,  0.0, -0.050,
+                      1.0,  0.0,  0.0, 0.10,
                       0.0,  1.0,  0.0,  0.000,
-                      0.0,  0.0,  1.0,  0.055,
+                      0.0,  0.0,  1.0,  0.1,
                       0.0,  0.0,  0.0,  0.000
                       ,
                       # Vertical
-                     -1.0,  0.0,  0.0, -0.550,
-                      0.0,  0.0,  1.0,  0.030,
-                      0.0,  1.0,  0.0,  0.090,
+                      0.0,  0.0,  1.0, 0.0,
+                      0.0,  1.0,  0.0,  0.0,
+                      -1.0,  0.0,  0.0, -0.1,
                       0.0,  0.0,  0.0,  0.000
                     ]
 
 # Minimum lidar range to admit
-min_range:          1.5
+min_range:          2.0
 
 # IMU topic
-imu_topic:          "/imu/imu"
+imu_topic:          "/mavros/imu/data_raw"
 
 # Gravity constant
 GRAV:               9.81007
@@ -96,7 +96,7 @@ max_outer_iters:    3
 max_lidar_factor:   4000  # Maximum number of lidar factors
 
 # Loop closure parameters
-loop_en:            1    # Enable loop closure
+loop_en:            0    # Enable loop closure
 loop_kf_nbr:        10   # Number of neighbour to check for loop closure
 loop_time_mindiff:  10   # Only check for loop when keyframes have this much difference
 

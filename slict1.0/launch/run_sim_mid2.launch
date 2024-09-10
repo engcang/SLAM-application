@@ -7,7 +7,7 @@
       <arg name="exp_log_dir" default="/home/$(env USER)/slict_logs/ntuviral"/>
 
       <!-- Load the param -->
-      <rosparam file="$(find slict)/config/ntuviral.yaml" command="load"/>
+      <rosparam file="$(find slict)/config/sim_mid2.yaml" command="load"/>
       <!-- Set some exp related params -->
       <param name="/autoexit" type="int"    value="$(arg autorun)" />
       <param name="/loop_en"  type="int"    value="$(arg loop_en)" />
@@ -15,6 +15,9 @@
 
       <!-- Run the sensor sync -->
       <node pkg="slict" type="slict_sensorsync" name="slict_sensorsync" respawn="false" output="log" required="true"/>
+
+      <node pkg="slict" type="slict_livox_to_ouster" name="slict_livox_to_ouster" respawn="false" output="log" required="true"/>
+      <node pkg="slict" type="slict_livox_to_ouster2" name="slict_livox_to_ouster2" respawn="false" output="log" required="true"/>
 
       <!-- Run the Estimator -->
       <node pkg="slict" required="true" type="slict_estimator" name="slict_estimator" respawn="false" output="screen"/>

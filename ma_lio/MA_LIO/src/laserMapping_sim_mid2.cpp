@@ -276,11 +276,11 @@ void imu_cbk(const sensor_msgs::Imu::ConstPtr &msg_in)
 // In example case, there should be only two cbk_ function inside of the lidar_cbk_.
 // Especially, if user wants to use only 1 lidar, 
 // There is only one function inside of lidar_cbk_ function with two inputs for lidar_cbk_. 
-void lidar_cbk_(const sensor_msgs::PointCloud2::ConstPtr &scanMsg_,
-                const sensor_msgs::PointCloud2::ConstPtr &scanMsg2_)
+void lidar_cbk_(const livox_ros_driver::CustomMsg::ConstPtr &scanMsg_,
+                const livox_ros_driver::CustomMsg::ConstPtr &scanMsg2_)
 {
-    standard_pcl_cbk(scanMsg_, 0);
-    standard_pcl_cbk(scanMsg2_, 1);
+    livox_pcl_cbk(scanMsg_, 0);
+    livox_pcl_cbk(scanMsg2_, 1);
 }
 
 /*** For UrbanNav Dataset (Case: LiDAR 2)***/
@@ -901,7 +901,7 @@ int main(int argc, char **argv)
     // typedef message_filters::sync_policies::ApproximateTime<Your Msg1, Your Msg2> LidarSyncPolicy;
     // Especially, if you want to use only 1 lidar, define the ApproximateTime as
     // typedef message_filters::sync_policies::ApproximateTime<Your Msg1, Your Msg1> LidarSyncPolicy
-    typedef message_filters::sync_policies::ApproximateTime<LidarMsgType, LidarMsgType> LidarSyncPolicy;
+    typedef message_filters::sync_policies::ApproximateTime<LivoxMsgType, LivoxMsgType> LidarSyncPolicy;
     typedef message_filters::Synchronizer<LidarSyncPolicy> Sync;
 
     // 2. Change the synchronizer based on sync_policies
@@ -911,7 +911,7 @@ int main(int argc, char **argv)
     // LidarSyncPolicy(10), *Your LiDAR[0], *Your LiDAR[0];
     message_filters::Synchronizer<LidarSyncPolicy> *sync =
         new message_filters::Synchronizer<LidarSyncPolicy>(
-            LidarSyncPolicy(10), *sub_spin[0], *sub_spin[1]);
+            LidarSyncPolicy(10), *sub_livox[0], *sub_livox[1]);
     sync->registerCallback(boost::bind(&lidar_cbk_, _1, _2));
 
     /*** For UrbanNav Dataset (Case: LiDAR 2)***/
