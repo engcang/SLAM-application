@@ -1,0 +1,14 @@
+<launch>
+  <arg name="robot_namespace" default="husky"/>
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder
+                    '$(find sensor_description)/urdf/robot_description_sim_mid2.urdf.xacro'
+                    robot_namespace:=$(arg robot_namespace)"/>
+
+    <node pkg="robot_state_publisher"
+          type="robot_state_publisher"
+          name="$(anon robot_state_publisher)"/>
+
+
+</launch>

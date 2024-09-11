@@ -1,0 +1,39 @@
+livox1:
+  name: sensor1/os_sensor
+  parent: arch
+  position:
+    x: 0.05
+    y: 0
+    z: 0.055
+  orientation:
+    r: 0
+    p: 0
+    y: 0
+  rate: 10
+  topic_name: /os1_cloud_node1/points
+os_sensor2:
+  name: sensor2/os_sensor
+  parent: arch
+  position:
+    x: -0.55
+    y: 0.03
+    z: 0.09
+  orientation:
+    r: 1.5707963
+    p: 0.0
+    y: 3.1415927
+  rate: 10
+  topic_name: /os1_cloud_node2/points
+imu:
+  name: imu
+  parent: arch
+  topic_name: /mavros/imu/data_raw
+  position:
+    x: 0
+    y: 0
+    z: 0
+  orientation:
+    r: 0
+    p: 0
+    y: 0
+  rate: 400
