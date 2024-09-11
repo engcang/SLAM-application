@@ -33,6 +33,9 @@
 #include "parameters.h"
 #include "preprocess.h"
 #include "IMU_Processing.hpp"
+#include <chrono>
+#include <std_msgs/Float32.h>
+using namespace std::chrono;
 
 #define INIT_TIME (0.1)
 #define LASER_POINT_COV (0.001)
@@ -927,6 +930,7 @@ int main(int argc, char **argv)
     ros::Publisher pubLaserCloudMap = nh.advertise<sensor_msgs::PointCloud2>("/Laser_map", 100000);
     ros::Publisher pubOdomAftMapped = nh.advertise<nav_msgs::Odometry>("/Odometry", 100000);
     ros::Publisher pubPath = nh.advertise<nav_msgs::Path>("/path", 100000);
+    ros::Publisher pubCalcTime = nh.advertise<std_msgs::Float32>("/calc_time", 100000);
     //------------------------------------------------------------------------------------------------------//
     signal(SIGINT, SigHandle);
     ros::Rate rate(5000);
@@ -940,6 +944,7 @@ int main(int argc, char **argv)
         if (sync_packages(Measures))
         {   /*** Initialize ***/
             curr_time = omp_get_wtime();
+            high_resolution_clock::time_point t1 = high_resolution_clock::now();
             state_point = kf.get_x();
             if (flg_first_scan)
             {
@@ -1074,6 +1079,12 @@ int main(int argc, char **argv)
                 publish_path(pubPath);
             if (scan_pub_en || pcd_save_en)
                 publish_frame_world(pubLaserCloudFull);
+            
+            high_resolution_clock::time_point t2 = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(t2 - t1).count();
+            std_msgs::Float32 calc_time;
+            calc_time.data = duration / 1000.0;
+            pubCalcTime.publish(calc_time);
         }
 
         status = ros::ok();
