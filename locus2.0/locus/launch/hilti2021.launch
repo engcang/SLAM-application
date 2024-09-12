@@ -1,7 +1,7 @@
 <launch>
  
-    <arg name="robot_namespace" default="sim"/>
-    <arg name="robot_type" value="sim"/>
+    <arg name="robot_namespace" default="hilti2021"/>
+    <arg name="robot_type" value="hilti2021"/>
 
     <arg name="nodelet_manager" value="nodelet_manager"/>
     <arg name="launch_prefix" value=""/>
@@ -17,23 +17,25 @@
     <arg name="pc_trans_in_1" default="os2/points"/>
 
     <!-- Load robot description -->
-    <include file="$(find locus)/launch/robot_description_sim_mid2.launch">
+    <include file="$(find locus)/launch/robot_description_hilti2021.launch">
         <arg name="robot_namespace" value="$(arg robot_namespace)"/>
     </include>
 
+    <!-- Livox to Ouster: /livox/lidar_ouster -->
+    <node pkg="slict" type="slict_livox_to_ouster" name="slict_livox_to_ouster" respawn="false" output="log" required="true"/>
+
     <group ns="$(arg robot_namespace)">
         <!-- Load parameters -->
-        <rosparam file="$(find locus)/config/body_filter_params_ntuviral.yaml"
+        <rosparam file="$(find locus)/config/body_filter_params_$(arg robot_type).yaml"
                     subst_value="true"/>
 
         <node
             pkg="locus"
             name="locus"
             type="locus_node"
-            output="screen"
-            launch-prefix="gdb -ex run --args">
+            output="screen">           
             <remap from="~LIDAR_TOPIC" to="$(arg pc_input)"/>
-            <remap from="~IMU_TOPIC" to="/mavros/imu/data_raw"/>            
+            <remap from="~IMU_TOPIC" to="/alphasense/imu"/>            
             <remap from="~SPACE_MONITOR_TOPIC" to="localizer_space_monitor/xy_cross_section"/>
 
             <param name="robot_name" value="$(arg robot_namespace)"/>
@@ -42,7 +44,7 @@
             <rosparam file="$(find locus)/config/lo_settings.yaml" />
 
             <param name="b_pub_odom_on_timer" value="false"/>
-            <rosparam file="$(find locus)/config/lo_frames.yaml" subst_value="true"/>
+            <rosparam file="$(find locus)/config/lo_frames_hilti2021.yaml" subst_value="true"/>
             <rosparam file="$(find point_cloud_filter)/config/parameters.yaml"/>
             <rosparam file="$(find point_cloud_odometry)/config/parameters.yaml"/>          
             <rosparam file="$(find point_cloud_localization)/config/ntuviral.yaml"/>
@@ -57,7 +59,7 @@
             type="nodelet"
             name="transform_points_base_link"
             args="standalone pcl/PassThrough">
-            <remap from="~input" to="/livox/pts1"/>
+            <remap from="~input" to="/os_cloud_node/points"/>
             <remap from="~output" to="$(arg pc_trans_in_0)"/>
             <rosparam subst_value="true">
                 filter_field_name: z
@@ -71,7 +73,7 @@
             type="nodelet"
             name="transform_points_base_link_front"
             args="standalone pcl/PassThrough">
-            <remap from="~input" to="/livox/pts2"/>
+            <remap from="~input" to="/livox/lidar_ouster"/>
             <remap from="~output" to="$(arg pc_trans_in_1)"/>
             <rosparam subst_value="true">
                 filter_field_name: z

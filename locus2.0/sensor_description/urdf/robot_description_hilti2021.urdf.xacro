@@ -13,18 +13,25 @@
     <origin xyz="0.0 0 0.0" rpy="0 0 0" />
   </joint>
 
-  <link name="livox1"/>
+  <link name="os_sensor"/>
   <joint name="arch_to_sensor1" type="fixed">
     <parent link="arch" />
-    <child link="livox1" />
-    <origin xyz="0.1 0 0.1" rpy="0 2.4958208 0"/>
+    <child link="os_sensor" />
+    <origin xyz="0.0102543784 -0.0066573859 0.130729657" rpy="-3.1412457 0.0065189 0.0024579"/>
   </joint>
 
-  <link name="livox2"/>
+  <link name="livox_frame"/>
   <joint name="arch_to_sensor2" type="fixed">
     <parent link="arch" />
-    <child link="livox2" />
-    <origin xyz="0.0 0.0 -0.1" rpy="0 -2.4958208 0"/>
+    <child link="livox_frame" />
+    <origin xyz="-0.003050707070885951 0.021993853931529066 0.15076415229379997" rpy="-3.1244532 0.0067876 0.0171429"/>
+  </joint>
+
+  <link name="imu_sensor_frame"/>
+  <joint name="arch_to_imu" type="fixed">
+    <parent link="arch" />
+    <child link="imu_sensor_frame" />
+    <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
   </joint>
 
 </robot>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="husky_sensors" xmlns:xacro="http://ros.org/wiki/xacro">
-<xacro:property name="sensor_props" value="${load_yaml('$(find sensor_description)/config/$(arg robot_namespace)_sensors.yaml')}" />
+<!-- <xacro:property name="sensor_props" value="${load_yaml('$(find sensor_description)/config/$(arg robot_namespace)_sensors.yaml')}" /> -->
 
   <!-- Base Link -->
   <link name="base_link"/>

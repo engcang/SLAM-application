@@ -3,7 +3,7 @@
 
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder
-                    '$(find sensor_description)/urdf/robot_description_sim_mid2.urdf.xacro'
+                    '$(find sensor_description)/urdf/robot_description_hilti2021.urdf.xacro'
                     robot_namespace:=$(arg robot_namespace)"/>
 
     <node pkg="robot_state_publisher"
