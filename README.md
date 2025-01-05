@@ -71,6 +71,14 @@
   $ make install
   ~~~
 
++ `CGAL` and `pcl-tools` for `R3LIVE`
+  ```bash
+  $ sudo apt install libcgal-dev pcl-tools
+
+  Optionally,
+  $ sudo apt install meshlab
+  ```
+
 + `glog`, `g++-9` and `gcc-9` for `Faster-LIO`
   ~~~bash
   $ sudo apt-get install libgoogle-glog-dev
@@ -80,19 +88,12 @@
   $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
   ~~~
 
-#### Note: When `Ouster-ros` package cannot be built with `gcc` and `g++` with the version higher than 6,
+### 🌟🌟🌟 Note: `Ouster-ros` package cannot be built with `gcc` and `g++` with the version higher than 6,
 + When building `ouster-ros`,
   ```bash
   catkin b -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_BUILD_TYPE=Release
   ```
 
-+ `CGAL` and `pcl-tools` for `R3LIVE`
-  ```bash
-  $ sudo apt install libcgal-dev pcl-tools
-
-  Optionally,
-  $ sudo apt install meshlab
-  ```
 ---
 
 <br>
@@ -103,17 +104,6 @@
 ~~~shell
 $ cd ~/your_workspace/src
 $ git clone https://github.com/RobustFieldAutonomyLab/LeGO-LOAM.git
-$ cd ..
-$ catkin build -DCMAKE_BUILD_TYPE=Release
-~~~
-
-<br>
-
-### ● KISS-ICP (ROS1)
-~~~shell
-$ cd ~/your_workspace/src
-$ git clone https://github.com/PRBonn/kiss-icp.git
-$ git reset --hard 460c6f2
 $ cd ..
 $ catkin build -DCMAKE_BUILD_TYPE=Release
 ~~~
@@ -172,18 +162,32 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
+### ● KISS-ICP (ROS1)
+#### 🌟🌟🌟 Note: KISS-ICP (ROS1) cannot be build with `gcc` and `g++` with the version higher than 9
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/PRBonn/kiss-icp.git
+$ git reset --hard 460c6f2
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9
+~~~
+
+<br>
+
 ### ● GenZ-ICP
+#### 🌟🌟🌟 Note: GenZ-ICP cannot be build with `gcc` and `g++` with the version higher than 9
 ```bash
 $ cd ~/your_workspace/src
 $ git clone https://github.com/cocel-postech/genz-icp
 $ cd ..
-$ catkin build -DCMAKE_BUILD_TYPE=Release
+$ catkin build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9
 ```
 
 ---
 
 <br>
 <br>
+
 
 # Installation (single LiDAR with IMU)
 ### ● LIO-SAM
