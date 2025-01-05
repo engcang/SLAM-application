@@ -1,11 +1,12 @@
 # SLAM-application: installation and test
-+ 3D, single-LiDAR: [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), and [ImMesh](https://github.com/hku-mars/ImMesh)
++ 3D, single-LiDAR without IMU (or optionally with IMU): [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM), [KISS-ICP](https://github.com/PRBonn/kiss-icp), [DLO](https://github.com/vectr-ucla/direct_lidar_odometry), [CT-ICP](https://github.com/jedeschaud/ct_icp), and [GenZ-ICP](https://github.com/cocel-postech/genz-icp)
++ 3D, single-LiDAR with IMU: [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), [LVI-SAM](https://github.com/TixiaoShan/LVI-SAM), [FAST-LIO2](https://github.com/hku-mars/FAST_LIO), [Faster-LIO](https://github.com/gaoxiang12/faster-lio), [VoxelMap](https://github.com/hku-mars/VoxelMap), [R3LIVE](https://github.com/hku-mars/r3live), [PV-LIO](https://github.com/HViktorTsoi/PV-LIO), [SLAMesh](https://github.com/RuanJY/SLAMesh), [ImMesh](https://github.com/hku-mars/ImMesh), [iG-LIO](https://github.com/zijiechenrobotics/ig_lio), and [SR-LIO](https://github.com/ZikangYuan/sr_lio/)
 + 3D, multi-LiDARs: [FAST-LIO-MULTI](https://github.com/engcang/FAST_LIO_MULTI), [M-LOAM](https://github.com/gogojjh/M-LOAM), [LOCUS2.0](https://github.com/NeBula-Autonomy/LOCUS), [SLICT1.0](https://github.com/brytsknguyen/slict/releases/tag/slict.1.0), and [MA-LIO](https://github.com/minwoo0611/MA-LIO)
 
 <br>
 
-## ● Results: 
-### Single-LiDAR
+# Results: 
+## ● Single-LiDAR
 + [`video`](https://youtu.be/RCY_q_d2Xm0): Lego-LOAM vs LIO-SAM vs LVI-SAM
 + [`video2`](https://youtu.be/WvgGqeyHNzs): LIO-SAM vs LVI-SAM
 + [`video3`](https://youtu.be/3d4WtK6S4Ms): LIO-SAM vs FAST-LIO2
@@ -22,70 +23,82 @@
 + [`video15`](https://youtu.be/NHPvLbztawY): Ada-LIO vs PV-LIO vs SLAMesh
 + [`video16`](https://youtu.be/0sVkY66pOpI): Ada-LIO vs PV-LIO
 + [`video17`](https://youtu.be/rOOKY9HVHzI): Ada-LIO vs ImMesh
-### Multi-LiDARs
+## ● Multi-LiDARs
 + [`video14`](https://youtu.be/YQmjKMoBPNU): FAST-LIO-MULTI bundle update vs asynchronous update
 ---
 
 <br>
+<br>
 
-## Dependencies
+# Dependencies
 + Common packages
-~~~bash
-$ sudo apt-get install -y ros-melodic-navigation ros-melodic-robot-localization ros-melodic-robot-state-publisher
-~~~
+  ~~~bash
+  $ sudo apt-get install -y ros-noetic-navigation ros-noetic-robot-localization ros-noetic-robot-state-publisher
+  ~~~
+
++ [CMake] version should be more recent than 3.20.5 for `CT-ICP`
+  ~~~bash
+  $ wget https://github.com/Kitware/CMake/archive/refs/tags/v3.31.3.tar.gz
+  $ tar zxf v3.31.3.tar.gz
+  $ cd CMake-3.31.3
+  $ ./bootstrap
+  $ make
+  $ sudo make install
+  ~~~
 
 + [GTSAM](https://github.com/borglab/gtsam/releases) for `LVI-SAM` and `LIO-SAM`
-~~~bash
-$ wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.2.zip
-$ unzip gtsam.zip
-$ cd gtsam-4.0.2/
-$ mkdir build && cd build
-$ cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF -DGTSAM_USE_SYSTEM_EIGEN=ON ..
-$ sudo make install -j8
-~~~
+  ~~~bash
+  $ wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.2.zip
+  $ unzip gtsam.zip
+  $ cd gtsam-4.0.2/
+  $ mkdir build && cd build
+  $ cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF -DGTSAM_USE_SYSTEM_EIGEN=ON ..
+  $ sudo make install -j8
+  ~~~
 
 + [Ceres solver](http://ceres-solver.org) for `LVI-SAM`, `SLAMesh`, and `SLICT1.0`
-~~~bash
-$ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
-$ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz #LVI-SAM
-$ wget http://ceres-solver.org/ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
-$ tar zxf ceres-solver-1.14.0.tar.gz #LVI-SAM
-$ tar zxf ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
-$ mkdir ceres-bin
-$ mkdir solver && cd ceres-bin
-$ cmake ../ceres-solver-1.14.0 -DEXPORT_BUILD_DIR=ON -DCMAKE_INSTALL_PREFIX="../solver"  #good for build without being root privileged and at wanted directory
-$ make -j8 # 8 : number of cores
-$ make test
-$ make install
-~~~
+  ~~~bash
+  $ sudo apt-get install -y cmake libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
+  $ wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz #LVI-SAM
+  $ wget http://ceres-solver.org/ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
+  $ tar zxf ceres-solver-1.14.0.tar.gz #LVI-SAM
+  $ tar zxf ceres-solver-2.1.0.tar.gz #SLAMesh, SLICT1.0
+  $ mkdir ceres-bin
+  $ mkdir solver && cd ceres-bin
+  $ cmake ../ceres-solver-1.14.0 -DEXPORT_BUILD_DIR=ON -DCMAKE_INSTALL_PREFIX="../solver"  #good for build without being root privileged and at wanted directory
+  $ make -j8 # 8 : number of cores
+  $ make test
+  $ make install
+  ~~~
 
 + `glog`, `g++-9` and `gcc-9` for `Faster-LIO`
-~~~bash
-$ sudo apt-get install libgoogle-glog-dev
-$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-$ sudo apt update
-$ sudo apt install gcc-9 g++-9
-$ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
-~~~
+  ~~~bash
+  $ sudo apt-get install libgoogle-glog-dev
+  $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  $ sudo apt update
+  $ sudo apt install gcc-9 g++-9
+  $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
+  ~~~
 
 #### Note: When `Ouster-ros` package cannot be built with `gcc` and `g++` with the version higher than 6,
 + When building `ouster-ros`,
-```bash
-catkin b -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_BUILD_TYPE=Release
-```
+  ```bash
+  catkin b -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_BUILD_TYPE=Release
+  ```
 
 + `CGAL` and `pcl-tools` for `R3LIVE`
-```bash
-$ sudo apt install libcgal-dev pcl-tools
+  ```bash
+  $ sudo apt install libcgal-dev pcl-tools
 
-Optionally,
-$ sudo apt install meshlab
-```
+  Optionally,
+  $ sudo apt install meshlab
+  ```
 ---
 
 <br>
+<br>
 
-## Installation
+# Installation (single LiDAR without IMU)
 ### ● LeGO-LOAM
 ~~~shell
 $ cd ~/your_workspace/src
@@ -96,6 +109,83 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
+### ● KISS-ICP (ROS1)
+~~~shell
+$ cd ~/your_workspace/src
+$ git clone https://github.com/PRBonn/kiss-icp.git
+$ git reset --hard 460c6f2
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+~~~
+
+<br>
+
+### ● DLO
+```shell
+$ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
+$ cd ~/your_workspace/src
+$ git clone https://github.com/vectr-ucla/direct_lidar_odometry.git
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+<br>
+
+### ● CT-ICP
++ [CMake] version should be more recent than 3.20.5 for `CT-ICP`
+  ~~~bash
+  $ wget https://github.com/Kitware/CMake/archive/refs/tags/v3.31.3.tar.gz
+  $ tar zxf v3.31.3.tar.gz
+  $ cd CMake-3.31.3
+  $ ./bootstrap
+  $ make
+  $ sudo make install
+  ~~~
++ Clone and build
+  ```bash
+  $ cd <OUTSIDE_OF_WORKSPACE_BUT_SOMEWHERE_ELSE>
+  $ git clone https://github.com/jedeschaud/ct_icp
+  $ cd ct_icp
+  $ mkdir .cmake-build-superbuild
+  $ cd .cmake-build-superbuild
+  $ cmake ../superbuild
+  $ cmake --build . --config Release
+  $ cd ..
+  $ mkdir cmake-build-release 
+  $ cd  cmake-build-release
+  $ cmake .. -DCMAKE_BUILD_TYPE=Release
+  $ cmake --build . --target install --config Release --parallel 12
+
+  $ cd ..
+  $ cd ros/roscore
+  $ mkdir cmake-build-release && cd  cmake-build-release
+  $ cmake .. -DCMAKE_BUILD_TYPE=Release
+  $ cmake --build . --target install --config Release --parallel 12
+
+  $ cd <path-to-your-catkin-workspace>/src
+  $ ln -s <path-to-ct_icp-git-project>/ros/catkin_ws/ct_icp_odometry ct_icp_odometry
+  $ ln -s <path-to-ct_icp-git-project>/ros/catkin_ws/slam_roscore slam_roscore
+  $ cd ..
+  $ catkin build -DSUPERBUILD_INSTALL_DIR=<path-to-superbuild-install-dir>
+  >> This directory is <CT_ICP_GIT_CLONED_PATH>/ct_icp/install
+  ```
+
+<br>
+
+### ● GenZ-ICP
+```bash
+$ cd ~/your_workspace/src
+$ git clone https://github.com/cocel-postech/genz-icp
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+---
+
+<br>
+<br>
+
+# Installation (single LiDAR with IMU)
 ### ● LIO-SAM
 ~~~shell
 $ cd ~/your_workspace/src
@@ -189,7 +279,7 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 #### ● Trouble shooting for VoxelMap
 + `/usr/include/lz4.h:196:57: error: conflicting declaration ‘typedef struct LZ4_stream_t LZ4_stream_t’ ...`
-  + You could meet this error in `ROS-melodic`. Fix as [here](https://github.com/ethz-asl/lidar_align/issues/16#issuecomment-504348488)
+  + You could meet this error in `ROS-noetic`. Fix as [here](https://github.com/ethz-asl/lidar_align/issues/16#issuecomment-504348488)
 ~~~bash
 $ sudo mv /usr/include/flann/ext/lz4.h /usr/include/flann/ext/lz4.h.bak
 $ sudo mv /usr/include/flann/ext/lz4hc.h /usr/include/flann/ext/lz4.h.bak
@@ -278,27 +368,6 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
-### ● KISS-ICP (ROS1)
-~~~shell
-$ cd ~/your_workspace/src
-$ git clone https://github.com/PRBonn/kiss-icp.git
-$ cd ..
-$ catkin build -DCMAKE_BUILD_TYPE=Release
-~~~
-
-<br>
-
-### ● DLO
-```shell
-$ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
-$ cd ~/your_workspace/src
-$ git clone https://github.com/vectr-ucla/direct_lidar_odometry.git
-$ cd ..
-$ catkin build -DCMAKE_BUILD_TYPE=Release
-```
-
-<br>
-
 ### ● DLIO
 ```shell
 $ sudo apt install libomp-dev libpcl-dev libeigen3-dev 
@@ -372,9 +441,32 @@ $ catkin build -DCMAKE_BUILD_TYPE=Release
 
 <br>
 
+### ● iG-LIO
+```bash
+$ cd ~/your_workspace/src
+$ git clone https://github.com/zijiechenrobotics/ig_lio
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+<br>
+
+### ● SR-LIO
+```bash
+$ cd ~/your_workspace/src
+$ git clone https://github.com/ZikangYuan/sr_lio/
+$ cd ..
+$ catkin build -DCMAKE_BUILD_TYPE=Release
+```
+
+<br>
+
 ---
 
-## Installation (Multi-LiDARs)
+<br>
+<br>
+
+# Installation (Multi-LiDARs)
 ### ● FAST-LIO-MULTI
 ```shell
 $ cd ~/your_workspace/src
@@ -524,8 +616,9 @@ if (cloud_scan_order[index] >= 0 && cloud_scan_order[index] < cloud_scan[i].size
 ---
 
 <br>
+<br>
 
-## How to run
+# How to run
 #### ● check each of config files and launch files in the folders of this repo
 
 #### Trouble shooting for [`Gazebo Velodyne plugin`](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/)
