@@ -1,0 +1,55 @@
+common:
+    lidar_topic:  "/velodyne_points"
+    imu_topic:  "/imu/data"
+    point_filter_num: 1
+    sweep_cut_num: 1
+    time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
+    gravity_acc: [ 0.0, 0.0, 9.80665]
+    
+lidar_parameter:
+    lidar_type: 2                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
+    N_SCANS: 16
+    SCAN_RATE: 10                # only need to be set for velodyne, unit: Hz,
+    time_unit: 3            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
+    blind: 0.5
+    fov_degree:    180
+    det_range:     100.0
+
+imu_parameter:
+    acc_cov: 0.1
+    gyr_cov: 0.1
+    b_acc_cov: 0.0001
+    b_gyr_cov: 0.0001
+    time_diff_enable: false
+
+extrinsic_parameter:
+    extrinsic_enable:  false      # true: enable the online estimation of IMU-LiDAR extrinsic,
+    extrinsic_t: [0.08, 0.029, 0.03]
+    extrinsic_R: [0.999212900, -0.000519121,  0.004000000,
+               0.000516111,  0.999218492, -0.000939132,
+               -0.004000000,  0.000802565,  0.999993652]
+
+odometry_options:
+    voxel_size: 0.3 # The voxel size for the grid sampling of the new frame (before keypoints extraction)
+    sample_voxel_size: 0.9 # The size of a voxel for the selection of `keypoints` by grid sampling
+    max_distance: 2000.0 # The threshold of the distance to suppress voxels from the map
+    max_num_points_in_voxel: 20 # The maximum number of points per voxel of the map
+    init_num_frames: 20
+    min_distance_points: 0.15
+    distance_error_threshold: 100.0 # The motion of the sensor between two frames which is considered erroneous (stops the odometry)
+    motion_compensation: CONSTANT_VELOCITY # The profile of the motion compensation (IMU, CONSTANT_VELOCITY)
+    initialization: INIT_IMU # [INIT_IMU, INIT_CONSTANT_VELOCITY]
+
+icp_options:
+    size_voxel_map: 1.0 # The voxel size of in the voxel map
+    num_iters_icp: 5 # The number of iterations of the ICP
+    min_number_neighbors: 20 # The minimum number of neighbor points to define a valid neighborhood
+    voxel_neighborhood: 1
+    max_number_neighbors: 20
+    max_dist_to_plane_ct_icp: 0.3
+    threshold_orientation_norm: 0.1 # Threshold on orientation changes (in degrees) for early termination of the ICP
+    threshold_translation_norm: 0.01 # Threshold on distance changes (in m) for early termination of the ICP
+    debug_print: false
+    num_closest_neighbors: 1
+    min_num_residuals: 200 # The minimum number of residuals for a valid ICP problem
+    max_num_residuals: 600 # The maximum number of residuals considered (if more keypoints exist, residuals are randomly sampled)

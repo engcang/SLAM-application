@@ -1,0 +1,57 @@
+<!--
+
+  Copyright (c)     
+
+  The Verifiable & Control-Theoretic Robotics (VECTR) Lab
+  University of California, Los Angeles
+
+  Authors: Kenny J. Chen, Ryan Nemiroff, Brett T. Lopez
+  Contact: {kennyjchen, ryguyn, btlopez}@ucla.edu
+
+-->
+
+<launch>
+
+  <arg name="robot_namespace" default="robot"/>
+
+  <arg name="pointcloud_topic" default="/velodyne_points"/>
+  <arg name="imu_topic" default="/imu/data"/>
+
+  <!-- DLIO Odometry Node -->
+  <node ns="$(arg robot_namespace)" name="dlio_odom" pkg="direct_lidar_inertial_odometry" type="dlio_odom_node" output="screen" clear_params="true">
+
+    <!-- Load parameters -->
+    <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/subt_longcorridor.yaml" command="load"/>
+    <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/params.yaml" command="load"/>
+
+    <!-- Subscriptions -->
+    <remap from="~pointcloud" to="$(arg pointcloud_topic)"/>
+    <remap from="~imu" to="$(arg imu_topic)"/>
+
+    <!-- Publications -->
+    <remap from="~odom"     to="dlio/odom_node/odom"/>
+    <remap from="~pose"     to="dlio/odom_node/pose"/>
+    <remap from="~path"     to="dlio/odom_node/path"/>
+    <remap from="~kf_pose"  to="dlio/odom_node/keyframes"/>
+    <remap from="~kf_cloud" to="dlio/odom_node/pointcloud/keyframe"/>
+    <remap from="~deskewed" to="dlio/odom_node/pointcloud/deskewed"/>
+
+  </node>
+
+  <!-- DLIO Mapping Node -->
+  <node ns="$(arg robot_namespace)" name="dlio_map" pkg="direct_lidar_inertial_odometry" type="dlio_map_node" output="screen" clear_params="true">
+
+    <!-- Load parameters -->
+    <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/subt_longcorridor.yaml" command="load"/>
+    <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/params.yaml" command="load"/>
+
+    <!-- Subscriptions -->
+    <remap from="~keyframes" to="dlio/odom_node/pointcloud/keyframe"/>
+
+    <!-- Publications -->
+    <remap from="~map" to="dlio/map_node/map"/>
+
+  </node>
+
+
+</launch>

@@ -1,0 +1,11 @@
+<launch>
+
+    <arg name="project" default="lio_sam_6axis"/>
+
+    <!-- Parameters -->
+    <rosparam file="$(find lio_sam_6axis)/config/subt_handheld.yaml" command="load"/>
+    <!--- LOAM -->
+    <include file="$(find lio_sam_6axis)/launch/include/module_loam.launch"/>
+
+
+</launch>

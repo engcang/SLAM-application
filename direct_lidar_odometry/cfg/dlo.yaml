@@ -1,0 +1,26 @@
+#############################################################
+#                                                           #
+# Copyright (c) 2022, University of California, Los Angeles #
+#                                                           #
+# Authors: Kenny J. Chen, Brett T. Lopez                    #
+# Contact: kennyjchen@ucla.edu, btlopez@ucla.edu            #
+#                                                           #
+#############################################################
+
+dlo:
+
+  version: 1.4.3
+
+  adaptiveParams: true
+
+  imu: false
+  gravityAlign: true
+
+  odomNode:
+    odom_frame: odom
+    child_frame: base_link
+
+  mapNode:
+    publishFullMap: true
+    publishFreq: 1.0
+    leafSize: 0.25

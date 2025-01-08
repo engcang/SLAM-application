@@ -1,0 +1,50 @@
+<!--
+
+  Copyright (c) 2022, University of California, Los Angeles
+
+  Authors: Kenny J. Chen, Brett T. Lopez
+  Contact: kennyjchen@ucla.edu, btlopez@ucla.edu
+
+-->
+
+<launch>
+
+  <arg name="robot_namespace" default="robot"/>
+
+  <arg name="pointcloud_topic" default="/os1_points"/>
+  <arg name="imu_topic" default="/imu/data_raw"/>
+
+  <!-- DLO Odometry Node -->
+  <node ns="$(arg robot_namespace)" name="dlo_odom" pkg="direct_lidar_odometry" type="dlo_odom_node" output="screen" clear_params="true">
+
+    <!-- Load parameters -->
+    <rosparam file="$(find direct_lidar_odometry)/cfg/dlo.yaml" command="load"/>
+    <rosparam file="$(find direct_lidar_odometry)/cfg/params.yaml" command="load"/>
+
+    <!-- Subscriptions -->
+    <remap from="~pointcloud" to="$(arg pointcloud_topic)"/>
+    <remap from="~imu" to="$(arg imu_topic)"/>
+
+    <!-- Publications -->
+    <remap from="~odom" to="dlo/odom_node/odom"/>
+    <remap from="~pose" to="dlo/odom_node/pose"/>
+    <remap from="~kfs" to="dlo/odom_node/odom/keyframe"/>
+    <remap from="~keyframe" to="dlo/odom_node/pointcloud/keyframe"/>
+
+  </node>
+
+  <!-- DLO Mapping Node -->
+  <node ns="$(arg robot_namespace)" name="dlo_map" pkg="direct_lidar_odometry" type="dlo_map_node" output="screen" clear_params="true">
+
+    <!-- Load parameters -->
+    <rosparam file="$(find direct_lidar_odometry)/cfg/dlo.yaml" command="load"/>
+
+    <!-- Subscriptions -->
+    <remap from="~keyframes" to="dlo/odom_node/pointcloud/keyframe"/>
+
+    <!-- Publications -->
+    <remap from="~map" to="dlo/map_node/map"/>
+
+  </node>
+
+</launch>

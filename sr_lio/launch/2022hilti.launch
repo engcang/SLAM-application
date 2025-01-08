@@ -1,0 +1,10 @@
+<launch>
+  <!-- Launch file for velodyne16 VLP-16 LiDAR -->
+
+    <rosparam command="load" file="$(find sr_lio)/config/2022hilti.yaml" />
+
+    <param name="debug_output" type="bool" value="0"/>
+    <param name="output_path" type="string" value="$(find sr_lio)/output"/>
+    <node pkg="sr_lio" type="lio_optimization" name="lio_optimization" output="screen" /> 
+
+</launch>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- ROS paramaters -->
+  <arg name="visualize" default="true"/>
+  <arg name="odom_frame" default="map"/>
+  <arg name="base_frame" default=""/>
+  <arg name="topic" default="/livox/lidar_ouster"/>
+  <arg name="publish_odom_tf" default="false"/>
+
+  <!-- KISS-ICP paramaters -->
+  <arg name="deskew" default="false"/>
+  <arg name="max_range" default="100.0" />
+  <arg name="min_range" default="0.5" />
+  <arg name="voxel_size" default="0.3" />
+
+  <!-- Odometry node -->
+  <node pkg="kiss_icp" type="odometry_node" name="odometry_node" output="screen">
+    <!-- ROS params -->
+    <remap from="pointcloud_topic" to="$(arg topic)"/>
+    <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+    <param name="publish_odom_tf" value="$(arg publish_odom_tf)"/>
+    <param name="visualize" value="$(arg visualize)"/>
+    <!-- KISS-ICP params -->
+    <param name="max_range" value="$(arg max_range)"/>
+    <param name="min_range" value="$(arg min_range)"/>
+    <param name="deskew" value="$(arg deskew)"/>
+    <param name="voxel_size" value="$(arg voxel_size)"/>
+    <param name="max_points_per_voxel" value="20"/>
+    <param name="initial_threshold" value="2.0"/>
+    <param name="min_motion_th" value="0.1" />
+  </node>
+
+</launch>

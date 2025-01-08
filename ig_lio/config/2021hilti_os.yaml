@@ -1,0 +1,36 @@
+lidar_topic: /os_cloud_node/points
+imu_topic: /alphasense/imu
+lidar_type: ouster # livox velodyne ouster
+min_radius: 0.5
+max_radius: 150.0
+point_filter_num: 3
+time_scale: 0.001 # nclt: 0.001 other: 1000.0
+enable_ahrs_initalization: false
+enable_acc_correct: false
+
+scan_resolution: 0.3
+voxel_map_resolution: 0.3
+max_iterations: 10
+
+acc_cov: 0.1
+gyr_cov: 0.1
+ba_cov: 0.0001
+bg_cov: 0.0001
+
+gicp_constraints_gain: 100.0
+point2plane_constraints_gain: 1000.0
+enable_undistort: true
+enable_outlier_rejection: true
+
+gravity: 9.80665
+init_ori_cov: 0.0001
+inti_pos_cov: 0.0001
+init_vel_cov: 100.0
+init_ba_cov: 0.0001
+init_bg_cov: 0.0001
+
+# newer college
+t_imu_lidar : [0.0102543784, -0.0066573859, 0.130729657]
+R_imu_lidar : [0.9999757,  0.0024556, -0.0065197,
+              0.0024579, -0.9999969,  0.0003309,
+              -0.0065188, -0.0003470, -0.9999787]

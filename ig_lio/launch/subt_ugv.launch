@@ -1,0 +1,6 @@
+<launch>
+    <rosparam command="load" file="$(find ig_lio)/config/subt_ugv.yaml" />
+
+    <node pkg="ig_lio" type="ig_lio_node" name="ig_lio_node" output="screen" />
+    
+</launch>

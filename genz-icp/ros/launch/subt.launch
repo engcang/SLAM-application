@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- ROS paramaters -->
+  <arg name="topic" default="/velodyne_points"/>
+  <arg name="odom_frame" default="odom"/>
+  <arg name="base_frame" default=""/>
+  <arg name="publish_odom_tf" default="true"/>
+  <arg name="visualize" default="true"/>
+
+  <!-- GenZ-ICP parameter sets -->
+  <arg name="config_file" default=""/>
+  <arg name="deskew" default="false"/>
+  <arg name="max_range" default="100.0"/>
+  <arg name="min_range" default="0.7"/>
+  <arg name="voxel_size" default="0.3"/>
+  <arg name="map_cleanup_radius" default=""/>
+  <arg name="max_points_per_voxelized_scan" default="1500"/>
+  <arg name="min_points_per_voxelized_scan" default="1300"/>
+  <arg name="planarity_threshold" default="0.12"/>
+  <arg name="max_points_per_voxel" default="1"/>
+  <arg name="initial_threshold" default="2.0"/>
+  <arg name="min_motion_th" default="0.1"/>
+  <arg name="max_num_iterations" default="50"/>
+  <arg name="convergence_criterion" default="0.0001"/>
+
+  <!-- Odometry node -->
+  <node pkg="genz_icp" type="odometry_node" name="odometry_node" output="screen">
+    <!-- ROS params -->
+    <remap from="pointcloud_topic" to="$(arg topic)"/>
+    <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+    <param name="publish_odom_tf" value="$(arg publish_odom_tf)"/>
+    <param name="visualize" value="$(arg visualize)"/>
+    
+    <!-- Conditional Parameter Loading -->
+    <!-- Load parameters from config file if provided -->
+    <rosparam if="$(eval config_file != '')" command="load" file="$(find genz_icp)/config/$(arg config_file)"/>
+    
+    <!-- Load parameters directly if config_file is empty -->
+    <param if="$(eval config_file == '')" name="deskew" value="$(arg deskew)"/>
+    <param if="$(eval config_file == '')" name="max_range" value="$(arg max_range)"/>
+    <param if="$(eval config_file == '')" name="min_range" value="$(arg min_range)"/>
+    <param if="$(eval config_file == '')" name="voxel_size" value="$(arg voxel_size)"/>
+    <param if="$(eval config_file == '')" name="map_cleanup_radius" value="$(arg map_cleanup_radius)"/>
+    <param if="$(eval config_file == '')" name="max_points_per_voxelized_scan" value="$(arg max_points_per_voxelized_scan)"/>
+    <param if="$(eval config_file == '')" name="min_points_per_voxelized_scan" value="$(arg min_points_per_voxelized_scan)"/>
+    <param if="$(eval config_file == '')" name="planarity_threshold" value="$(arg planarity_threshold)"/>
+    <param if="$(eval config_file == '')" name="max_points_per_voxel" value="$(arg max_points_per_voxel)"/>
+    <param if="$(eval config_file == '')" name="initial_threshold" value="$(arg initial_threshold)"/>
+    <param if="$(eval config_file == '')" name="min_motion_th" value="$(arg min_motion_th)"/>
+    <param if="$(eval config_file == '')" name="max_num_iterations" value="$(arg max_num_iterations)"/>
+    <param if="$(eval config_file == '')" name="convergence_criterion" value="$(arg convergence_criterion)"/>
+  </node>
+
+</launch>
