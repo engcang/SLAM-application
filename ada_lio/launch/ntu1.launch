@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <rosparam command="load" file="$(find ada_lio_dynamic)/config/ntu1.yaml" />
+
+  <!-- run ada_lio -->
+  <node pkg="ada_lio_dynamic" type="ada_lio_dynamic_node" name="ada_lio_dynamic_node" output="screen" /> 
+
+</launch>

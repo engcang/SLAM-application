@@ -7,7 +7,7 @@ ada_lio_dynamic:
 
     preprocess:
         filter_size_map: 0.3         # voxel size
-        point_filter_num: 3          # downsampling points, default values: 3 or 2 for LiVOX, 4 for Ouster and Velodyne
+        point_filter_num: 1          # downsampling points, default values: 3 or 2 for LiVOX, 4 for Ouster and Velodyne
         lidar_type: 2                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
         scan_line: 16
         scan_rate: 10                # only need to be set for velodyne, unit: Hz,

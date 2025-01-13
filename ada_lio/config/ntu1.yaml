@@ -2,17 +2,17 @@ ada_lio_dynamic:
     common:
         max_iteration: 3              # max iter of IEKF
         map_frame: "map"              # publish frame, e.g., previous LO/LIO methods used "camera_init", which is super inconvenient.
-        lid_topic:  "/velodyne_points"
-        imu_topic:  "/imu/data"
+        lid_topic:  "/os1_cloud_node1/points"
+        imu_topic:  "/imu/imu"
 
     preprocess:
         filter_size_map: 0.3         # voxel size
-        point_filter_num: 1          # downsampling points, default values: 3 or 2 for LiVOX, 4 for Ouster and Velodyne
-        lidar_type: 2                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
+        point_filter_num: 2          # downsampling points, default values: 3 or 2 for LiVOX, 4 for Ouster and Velodyne
+        lidar_type: 3                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
         scan_line: 16
         scan_rate: 10                # only need to be set for velodyne, unit: Hz,
         timestamp_unit: 3            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
-        blind: 0.5
+        blind: 0.9
 
     adaptive:
         adaptive_voxelization_en: true # If true, Adaptive mode
@@ -30,10 +30,10 @@ ada_lio_dynamic:
         b_acc_cov: 0.0001
         b_gyr_cov: 0.0001
         extrinsic_est_en:  false     # true: enable the online estimation of IMU-LiDAR extrinsic,
-        extrinsic_T: [0.08, 0.029, 0.03]
-        extrinsic_R: [0.999945562, 0.009074807,  0.005149763,
-               -0.009060897, 0.999955255, -0.002718066,
-                -0.005174199, 0.002671256,  0.999983046]
+        extrinsic_T: [ -0.05, 0.0, 0.055 ]
+        extrinsic_R: [1.0, 0.0, 0.0,
+                      0.0, 1.0, 0.0,
+                      0.0, 0.0, 1.0]
 
     publish:
         ikd_visualize_en: false
